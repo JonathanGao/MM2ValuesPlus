@@ -5,8 +5,8 @@ import lxml
 
 from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass, parseForSingleElementOnId, parseTierTable
 
-def parseGodliesPage():
-    response = requests.get("https://supremevalues.com/mm2/godlies")
+def parseWeaponsPage(link: str):
+    response = requests.get(link)
     if response.status_code != 200:
         print("Failed to get the response")
         sys.exit(1)
@@ -117,10 +117,13 @@ def parseGodliesPage():
             
             # Insert into FinalWeaponsList
             FinalWeaponsList[itemName] = {
+                "name": itemName,
+                "source": "supremevalues",
+                "gameRarity": "godly",
                 "tier": tier,
                 "value": itemValue,
                 "range": itemRange,
-                "stability": itemStabilityScore,
+                "stabilityScore": itemStabilityScore,
                 "demand": itemDemand,
                 "rarity": itemRarity,
                 "flippability": itemFlippability,
