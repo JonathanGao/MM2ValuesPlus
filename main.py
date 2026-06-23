@@ -13,11 +13,10 @@ def main():
     createTable(cursor, "godlies")
 
     godlies = parseWeaponsPage("https://supremevalues.com/mm2/godlies")
-    print(godlies)
 
     # Gets the ranges only for the weapons with a range.
     godlyRange = getGodlyRange(godlies)
-    print(godlyRange)
+    print(f"Found range for {len(godlyRange)} godlies")
 
     # insert all godlies into database, making sure to not overwrite existing data
     for godly in godlies:
