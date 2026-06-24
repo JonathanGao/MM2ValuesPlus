@@ -1,6 +1,6 @@
 import sqlite3
 
-def createTable(cursor, tableName):
+def createTableWeapons(cursor, tableName):
     cursor.execute(f"""
     CREATE TABLE IF NOT EXISTS {tableName} (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,3 +44,28 @@ def getGodlyRange(godliesData):
             "maxRange": maxRange,
         }
     return godlyRange
+
+def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
+    for weapon in weapons:
+        weaponData = weapons[weapon]
+        weaponRangeMin = None
+        weaponRangeMax = None
+        if weaponRange[weapon]:
+            weaponRangeMin, weaponRangeMax = weaponRange[weapon]["minRange"], weaponRange[weapon]["maxRange"]
+        cursor.execute(f"""
+        INSERT INTO {weaponTable} (name, source, gameRarity, tier, value, minRange, maxRange, stabilityScore, demand, rarity, flippability, chanceOfRising)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            weaponData["name"],
+            weaponData["source"],
+            weaponData["gameRarity"],
+            weaponData["tier"],
+            weaponData["value"],
+            weaponRangeMin,
+            weaponRangeMax,
+            weaponData["stabilityScore"],
+            weaponData["demand"],
+            weaponData["rarity"],
+            weaponData["flippability"],
+            weaponData["chanceOfRising"],
+        ))

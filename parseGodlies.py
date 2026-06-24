@@ -131,3 +131,25 @@ def parseWeaponsPage(link: str):
             }
 
     return FinalWeaponsList
+
+def findUpdateLog(link: str):
+    # Get the html page from the link
+    response = requests.get(link)
+    if response.status_code != 200:
+        print("Failed to get the response")
+        sys.exit(1)
+
+    soup = BeautifulSoup(response.text, "lxml")
+
+    # Get the update log, it's a div with id "updatelog" and it contains a lot of children that are all divs.
+    finalUpdateLog = []
+    updateLog = parseForSingleElementOnId(soup, "div", "updatelog")
+    
+    # Get the children of the update log that do not have a style(not a title or anything like that)
+    updateLog = updateLog.find_all(style=False, recursive=False)
+
+    # Format html to text so it's readable
+    # Append the text of each tag to the finalUpdateLog
+    for tag in updateLog:
+        finalUpdateLog.append(tag.text)
+    return finalUpdateLog

@@ -4,13 +4,15 @@ from bs4 import BeautifulSoup
 import lxml
 import sqlite3
 
-from parseGodlies import parseWeaponsPage
-from sqlManager import createTable, getGodlyRange
+from parseGodlies import parseWeaponsPage, findChangeLog
+from sqlManager import createTable, getGodlyRange, insertWeapons
+godliesDb = "godlies.db"
+godliesTable = "godlies"
 
 def main():
-    connection = sqlite3.connect("godlies.db")
+    connection = sqlite3.connect(godliesDb)
     cursor = connection.cursor()
-    createTable(cursor, "godlies")
+    createTable(cursor, godliesTable)
 
     godlies = parseWeaponsPage("https://supremevalues.com/mm2/godlies")
 
@@ -19,29 +21,7 @@ def main():
     print(f"Found range for {len(godlyRange)} godlies")
 
     # insert all godlies into database, making sure to not overwrite existing data
-    for godly in godlies:
-        godlyData = godlies[godly]
-        godlyRangeMin = None
-        godlyRangeMax = None
-        if godlyRange[godly]:
-            godlyRangeMin, godlyRangeMax = godlyRange[godly]["minRange"], godlyRange[godly]["maxRange"]
-        cursor.execute("""
-        INSERT INTO godlies (name, source, gameRarity, tier, value, minRange, maxRange, stabilityScore, demand, rarity, flippability, chanceOfRising)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            godlyData["name"],
-            godlyData["source"],
-            godlyData["gameRarity"],
-            godlyData["tier"],
-            godlyData["value"],
-            godlyRangeMin,
-            godlyRangeMax,
-            godlyData["stabilityScore"],
-            godlyData["demand"],
-            godlyData["rarity"],
-            godlyData["flippability"],
-            godlyData["chanceOfRising"],
-        ))
+    insertWeapons(cursor, godlies, godlyRange, godliesTable)
 
     connection.commit()
     connection.close()
