@@ -20,6 +20,16 @@ def createTableWeapons(cursor, tableName):
 );""")
     print("createTable function success")
 
+def createTableUpdateLog(cursor, tableName):
+    cursor.execute(f"""
+    CREATE TABLE IF NOT EXISTS {tableName} (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source TEXT NOT NULL, -- either "supremevalues" or "mm2values"
+    log TEXT NOT NULL,
+    createdAt TEXT default CURRENT_TIMESTAMP
+);""")
+    print("createTableUpdateLog function success")
+
 def getGodlyRange(godliesData):
     godlyRange = {}
     for i in godliesData:
@@ -69,3 +79,14 @@ def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
             weaponData["flippability"],
             weaponData["chanceOfRising"],
         ))
+
+def insertUpdateLog(cursor, updateLogs, updateLogTable: str):
+    for updateLog in updateLogs:
+        cursor.execute(f"""
+        INSERT INTO {updateLogTable} (source, log)
+        VALUES (?, ?)
+        """, (
+            updateLog["source"],
+            updateLog["log"],
+        ))
+    print("insertUpdateLog function success")

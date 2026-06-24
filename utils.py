@@ -1,5 +1,23 @@
 import sys
+
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
+from datetime import datetime, timezone
+
+def getCurrentTimestamp():
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+def getSourceFromLink(link: str):
+    source = None
+    hostname = (urlparse(link).hostname or "").lower()
+    if "supremevalues" in hostname:
+        source = "supremevalues"
+    elif "mm2values" in hostname:
+        source = "mm2values"
+    else:
+        print(f"Invalid source: {hostname}")
+        sys.exit(1)
+    return source
 
 def parseForMultipleElementsOnClass(element, type : str, class_ : str):
     # Check if type is valid, if there is no specified type, use the default type of ""
