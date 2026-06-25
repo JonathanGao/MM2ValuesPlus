@@ -16,7 +16,7 @@ def createTableWeapons(cursor, tableName):
     rarity INTEGER, 
     flippability TEXT, 
     chanceOfRising INTEGER,
-    createdAt TEXT default CURRENT_TIMESTAMP
+    createdAt TEXT NOT NULL default CURRENT_TIMESTAMP
 );""")
     print("createTable function success")
 
@@ -63,8 +63,8 @@ def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
         if weaponRange[weapon]:
             weaponRangeMin, weaponRangeMax = weaponRange[weapon]["minRange"], weaponRange[weapon]["maxRange"]
         cursor.execute(f"""
-        INSERT INTO {weaponTable} (name, source, gameRarity, tier, value, minRange, maxRange, stabilityScore, demand, rarity, flippability, chanceOfRising)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO {weaponTable} (name, source, gameRarity, tier, value, minRange, maxRange, stabilityScore, demand, rarity, flippability, chanceOfRising, createdAt)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             weaponData["name"],
             weaponData["source"],
@@ -78,6 +78,7 @@ def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
             weaponData["rarity"],
             weaponData["flippability"],
             weaponData["chanceOfRising"],
+            weaponData["createdAt"],
         ))
 
 def insertUpdateLog(cursor, updateLogs, updateLogTable: str):

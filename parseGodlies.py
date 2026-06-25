@@ -2,15 +2,25 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 import lxml
-from datetime import datetime, timezone
+from typing import Optional
+from datetime import datetime, timezone, date, time
 from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass, parseForSingleElementOnId, parseTierTable, getSourceFromLink, getCurrentTimestamp
 
-def parseWeaponsPage(link: str):
+
+# Optional date is used to filter the godlies by the date they were added. This is used to get historical data from the archive and use the date that it was archived at.
+def parseWeaponsPage(link: str, dateUsed: Optional[date] = None):
+
+    if dateUsed:
+        dateUsed = datetime.combine(dateUsed, time.min)
+    else:
+        dateUsed = getCurrentTimestamp()
+
     response = requests.get(link)
     if response.status_code != 200:
         print("Failed to get the response")
         sys.exit(1)
 
+    source = getSourceFromLink(link)
     soup = BeautifulSoup(response.text, "lxml")
 
     # Get the body of the page
@@ -114,11 +124,12 @@ def parseWeaponsPage(link: str):
             if not itemChanceOfRising:
                 print("Failed to get the item chance of rising")
                 sys.exit(1)
+
             
             # Insert into FinalWeaponsList
             FinalWeaponsList[itemName] = {
                 "name": itemName,
-                "source": "supremevalues",
+                "source": source,
                 "gameRarity": "godly",
                 "tier": tier,
                 "value": itemValue,
@@ -128,11 +139,12 @@ def parseWeaponsPage(link: str):
                 "rarity": itemRarity,
                 "flippability": itemFlippability,
                 "chanceOfRising": itemChanceOfRising,
+                "createdAt": dateUsed,
             }
 
     return FinalWeaponsList
 
-def findUpdateLog(link: str):
+def findUpdateLog(link: str, date: Optional[date] = None):
     # Get the html page from the link
     response = requests.get(link)
     if response.status_code != 200:
