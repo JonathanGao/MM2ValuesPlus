@@ -1,5 +1,4 @@
 .venv/
 __pycache__/
 logs/
-migrate_ranges.py
-visualizeData.py
+tools/
