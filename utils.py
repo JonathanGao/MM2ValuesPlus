@@ -88,12 +88,12 @@ def parseForSingleElementOnId(element, type : str, id : str):
             sys.exit(1)
     return elements[0]
 
-def parseTierTable(tierTable, tier : int):
+def parseTierTable(tierTable, tier : int or str):
     # Parse the tier table for the tier tables 3, 2, 1, and 0
-    tierTables = tierTable.find_all('section', class_="grid", id = f"tier{tier}")
+    tierTables = tierTable.find_all('section', class_="grid", id = f"{tier}")
     if not tierTables:
-        print(f"Failed to get the tier {tier} table")
-        sys.exit(1)
+        print(f"Tier {tier} does not exist")
+        return None
     elif len(tierTables) != 1 and len(tierTables) > 0:
         print(f"Multiple elements with class 'tier-{tier}' found")
         sys.exit(1)

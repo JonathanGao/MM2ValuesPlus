@@ -8,7 +8,7 @@ from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass,
 
 
 # Optional date is used to filter the godlies by the date they were added. This is used to get historical data from the archive and use the date that it was archived at.
-def parseWeaponsPage(link: str, dateUsed: Optional[date] = None):
+def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], dateUsed: Optional[date] = None):
 
     if dateUsed:
         dateUsed = datetime.combine(dateUsed, time.min)
@@ -60,19 +60,13 @@ def parseWeaponsPage(link: str, dateUsed: Optional[date] = None):
         print("Failed to get the changelog")
         sys.exit(1)
 
-    # Parse the tier tables for tier tables 3, 2, 1, and 0
-    ExpectedTiers = [3, 2, 1, 0]
+    # Parse the tier tables for specified tiers.
     ParsedTierTable = {}
 
-    for tier in ExpectedTiers:
-        ParsedTierTable[tier] = parseTierTable(tierTableTiers, tier)
-        
-    # Check that all 4 tiers are present in the ParsedTierTable
-    for tier in ExpectedTiers:
-        if tier not in ParsedTierTable:
-            print(f"Tier {tier} is not present in the ParsedTierTable")
-            sys.exit(1)
-
+    for tier in expectedTiers:
+        expectedTier = parseTierTable(tierTableTiers, tier)
+        if expectedTier:
+            ParsedTierTable[tier] = expectedTier
     # For every tier in the ParsedTierTable, parse the item columns
     ParsedItemColumns = {}
     FinalWeaponsList = {}
@@ -80,49 +74,58 @@ def parseWeaponsPage(link: str, dateUsed: Optional[date] = None):
     for tier in ParsedTierTable:
         ParsedItemColumns[tier] = parseForMultipleElementsOnClass(ParsedTierTable[tier], "div", "itemcolumn")
 
-        # Now replace the ParsedItemColumns id with the name of each weapon.
+        # Now replace the ParsedItemColumns id with the name of each weapon. 
         for itemColumn in ParsedItemColumns[tier]:
-            moreData = itemColumn.find("td", class_="itemimage")
-            itemButton = moreData.find_all("button")
-            if not itemButton:
-                print("Failed to get the item button")
-                sys.exit(1)
-            elif len(itemButton) != 1 and len(itemButton) > 0:
-                print("Multiple item buttons found")
-                sys.exit(1)
-            itemButton = itemButton[0]
+            # Some weapons do not have a button, and therefore these variables will be N/A in the database unless they exist.
+            itemName = "N/A"
+            itemFlippability = "N/A"
+            itemChanceOfRising = "N/A"            
             
-            itemName = itemButton.get('data-name')
-            if not itemName:
-                print("Failed to get the item name")
-                sys.exit(1)
+            itemName = itemColumn.find('div', class_='itemhead').text
             itemValue = itemColumn.get('data-value')
             if not itemValue:
-                print("Failed to get the item value")
+                print(f"Failed to get the item value for item column {itemColumn}")
                 sys.exit(1)
-            itemRange = itemColumn.find('b', class_='itemrange').text
-            if not itemRange:
-                print("Failed to get the item range")
-                sys.exit(1)
+            itemRange = itemColumn.find('b', class_='itemrange')
+            if itemRange:
+                itemRange = itemRange.text
+            else:
+                itemRange = "N/A"
             itemDemand = itemColumn.get('data-demand')
             if not itemDemand:
-                print("Failed to get the item demand")
+                print(f"Failed to get the item demand for item column {itemColumn}")
                 sys.exit(1)
             itemRarity = itemColumn.get('data-rarity')
             if not itemRarity:
-                print("Failed to get the item rarity")
+                print(f"Failed to get the item rarity for item column {itemColumn}")
                 sys.exit(1)
             itemStabilityScore = itemColumn.get('data-stability-score')
             if not itemStabilityScore:
-                print("Failed to get the item stability score")
+                print(f"Failed to get the item stability score for item column {itemColumn}")
                 sys.exit(1)
-            itemFlippability = itemButton.get('data-flippability')
-            if not itemFlippability:
-                print("Failed to get the item flippability")
+
+
+            moreData = itemColumn.find("td", class_="itemimage")
+            if not moreData:
+                print(f"Failed to get the more data for item column {itemColumn}")
                 sys.exit(1)
-            itemChanceOfRising = itemButton.get('data-cor')
-            if not itemChanceOfRising:
-                print("Failed to get the item chance of rising")
+            itemButton = moreData.find_all("button")
+            if itemButton:
+                itemButton = itemButton[0]
+                itemName = itemButton.get('data-name')
+                if not itemName:
+                    print("Failed to get the item name")
+                    sys.exit(1)
+                itemFlippability = itemButton.get('data-flippability')
+                if not itemFlippability:
+                    print("Failed to get the item flippability")
+                    sys.exit(1)
+                itemChanceOfRising = itemButton.get('data-cor')
+                if not itemChanceOfRising:
+                    print("Failed to get the item chance of rising")
+                    sys.exit(1)
+            elif len(itemButton) != 1 and len(itemButton) > 0:
+                print("Multiple item buttons found")
                 sys.exit(1)
 
             
@@ -130,7 +133,7 @@ def parseWeaponsPage(link: str, dateUsed: Optional[date] = None):
             FinalWeaponsList[itemName] = {
                 "name": itemName,
                 "source": source,
-                "gameRarity": "godly",
+                "gameRarity": gameRarity,
                 "tier": tier,
                 "value": itemValue,
                 "range": itemRange,

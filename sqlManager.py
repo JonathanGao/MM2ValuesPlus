@@ -30,30 +30,30 @@ def createTableUpdateLog(cursor, tableName):
 );""")
     print("createTableUpdateLog function success")
 
-def getGodlyRange(godliesData):
-    godlyRange = {}
-    for i in godliesData:
-        godly = godliesData[i]
+def getWeaponRange(weaponsData):
+    weaponRange = {}
+    for i in weaponsData:
+        weapon = weaponsData[i]
         # Range is a string, parse the string to separate it into the minimum and maximums of the range.
-        Range = godly["range"]
+        Range = weapon["range"]
         minRange, maxRange = None, None
         if Range == "N/A":
-            minRange, maxRange = godly["value"], godly["value"]
+            minRange, maxRange = weapon["value"], weapon["value"]
         elif "-" in Range:
             rawParsedRange = list(map(lambda x: x.strip(), Range.split("-")))
-            FinalParsedRange = list(map(lambda x: int(x.replace(",", "")), rawParsedRange))
-            if rawParsedRange[0] > rawParsedRange[1]:
-                minRange, maxRange = rawParsedRange[1], rawParsedRange[0]
+            finalParsedRange = list(map(lambda x: int(x.replace(",", "")), rawParsedRange))
+            if finalParsedRange[0] > finalParsedRange[1]:
+                minRange, maxRange = finalParsedRange[1], finalParsedRange[0]
             else:
-                minRange, maxRange = rawParsedRange[0], rawParsedRange[1]
+                minRange, maxRange = finalParsedRange[0], finalParsedRange[1]
         else:
             print("Invalid range format")
             return None
-        godlyRange[godly["name"]] = {
+        weaponRange[weapon["name"]] = {
             "minRange": minRange,
             "maxRange": maxRange,
         }
-    return godlyRange
+    return weaponRange
 
 def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
     for weapon in weapons:
@@ -91,3 +91,11 @@ def insertUpdateLog(cursor, updateLogs, updateLogTable: str):
             updateLog["log"],
         ))
     print("insertUpdateLog function success")
+
+def scrapedToday(cursor, tableName: str, source: str = "supremevalues") -> bool:
+    cursor.execute(f"""
+        SELECT 1 FROM {tableName}
+        WHERE source = ? AND date(createdAt) = date('now', 'localtime')
+        LIMIT 1
+    """, (source,))
+    return cursor.fetchone() is not None
