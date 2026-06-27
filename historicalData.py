@@ -3,8 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import sqlite3
-import time
 
+from time import sleep
+from datetime import datetime, timezone
 from parseGodlies import parsePageForItems, findUpdateLog
 from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday
 
@@ -37,23 +38,25 @@ createTableWeapons(cursor, chromasTable)
 createTableWeapons(cursor, legendariesTable)
 createTableWeapons(cursor, ancientsTable)
 
-archiveIndexes = requests.get("https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/&output=json").json()
+archiveIndexes = requests.get("https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/godlies/&output=json").json()
 header = archiveIndexes[0]
 # Turn archiveIndexes into a dictionary rather than a list of lists
 archiveIndexes = [dict(zip(header, index)) for index in archiveIndexes[1:]]
-siteUrl = "https://supremevalues.com/godlies/"
+siteUrl = "https://supremevalues.com/mm2/godlies/"
 
 for index in archiveIndexes:
     page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}/{siteUrl}")
     print(f"Retrieved page {index} from {index["timestamp"]}")
-    time.sleep(10)
     dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
 
     godlies = parsePageForItems("https://supremevalues.com/", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], html=page.text)
     godlyRange = getWeaponRange(godlies)
-    insertWeapons(cursor, godlies, godlyRange, godliesTable)
-    godliesUpdateLogs = findUpdateLog("https://supremevalues.com/mm2/godlies")
-    insertUpdateLog(cursorLog, godliesUpdateLogs, godliesUpdateLogTable)
+    print(godlies)
+    print(godlyRange)
+    godliesUpdateLogs = findUpdateLog("https://supremevalues.com/", html=page.text)
+    print(godliesUpdateLogs)
+
+    sleep(10)
 
 connection.close()
 connectionLog.close()

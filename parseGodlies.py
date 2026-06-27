@@ -8,7 +8,7 @@ from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass,
 
 
 # Optional date is used to filter the godlies by the date they were added. This is used to get historical data from the archive and use the date that it was archived at.
-def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], dateUsed: Optional[datetime] = None, html: Optional[BeautifulSoup] = None):
+def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], dateUsed: Optional[datetime] = None, html: Optional[str] = None):
 
     if not dateUsed:
         dateUsed = getCurrentTimestamp()
@@ -23,7 +23,7 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
     if not html:
         soup = BeautifulSoup(response.text, "lxml")
     else:
-        soup = html
+        soup = BeautifulSoup(html, "lxml")
 
     # Get the body of the page
     body = soup.body
@@ -79,9 +79,9 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
         # Now replace the ParsedItemColumns id with the name of each weapon. 
         for itemColumn in ParsedItemColumns[tier]:
             # Some weapons do not have a button, and therefore these variables will be N/A in the database unless they exist.
-            itemName = "N/A"
-            itemFlippability = "N/A"
-            itemChanceOfRising = "N/A"            
+            itemName = None
+            itemFlippability = None
+            itemChanceOfRising = None        
             
             itemName = itemColumn.find('div', class_='itemhead').text
             itemValue = itemColumn.get('data-value')
@@ -92,6 +92,7 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
             if itemRange:
                 itemRange = itemRange.text
             else:
+                # This can be N/A because later on in the getWeaponRange function, we will check if the range is N/A and if it is, we will set the minRange and maxRange to the value. so N/A is not inserted into the database.
                 itemRange = "N/A"
             itemDemand = itemColumn.get('data-demand')
             if not itemDemand:
@@ -125,7 +126,6 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
                 itemChanceOfRising = itemButton.get('data-cor')
                 if not itemChanceOfRising:
                     print("Failed to get the item chance of rising")
-                    sys.exit(1)
             elif len(itemButton) != 1 and len(itemButton) > 0:
                 print("Multiple item buttons found")
                 sys.exit(1)
@@ -159,7 +159,7 @@ def findUpdateLog(link: str, date: Optional[date] = None, html: Optional[Beautif
     if not html:
         soup = BeautifulSoup(response.text, "lxml")
     else:
-        soup = html
+        soup = BeautifulSoup(html, "lxml")
 
     # Get the update log, it's a div with id "updatelog" and it contains a lot of children that are all divs.
     finalUpdateLogs = []
