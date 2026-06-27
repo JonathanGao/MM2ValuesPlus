@@ -38,25 +38,33 @@ createTableWeapons(cursor, chromasTable)
 createTableWeapons(cursor, legendariesTable)
 createTableWeapons(cursor, ancientsTable)
 
-archiveIndexes = requests.get("https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/godlies/&output=json").json()
-header = archiveIndexes[0]
-# Turn archiveIndexes into a dictionary rather than a list of lists
-archiveIndexes = [dict(zip(header, index)) for index in archiveIndexes[1:]]
-siteUrl = "https://supremevalues.com/mm2/godlies/"
+def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str], weaponTable: str, updateLogTable: str):
+    weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json").json()
+    header = weaponsArchiveIndexes[0]
+    # Turn archiveIndexes into a dictionary rather than a list of lists
+    weaponArchiveIndexes = [dict(zip(header, index)) for index in weaponArchiveIndexes[1:]]
+    siteUrl = f"https://supremevalues.com/mm2/{directory}/"
 
-for index in archiveIndexes:
-    page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}/{siteUrl}")
-    print(f"Retrieved page {index} from {index["timestamp"]}")
-    dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+    for index in weaponsArchiveIndexes:
+        page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}/{siteUrl}")
+        print(f"Retrieved page {index} from {index["timestamp"]}")
+        dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
 
-    godlies = parsePageForItems("https://supremevalues.com/", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], html=page.text)
-    godlyRange = getWeaponRange(godlies)
-    print(godlies)
-    print(godlyRange)
-    godliesUpdateLogs = findUpdateLog("https://supremevalues.com/", html=page.text)
-    print(godliesUpdateLogs)
+        weapons = parsePageForItems("https://supremevalues.com/", gameRarity=gameRarity, expectedTiers=expectedTiers, html=page.text)
+        weaponsRange = getWeaponRange(weapons)
+        weaponsUpdateLogs = findUpdateLog("https://supremevalues.com/", html=page.text)
+        insertWeapons(cursor, weapons, weaponsRange, weaponTable)
+        insertUpdateLog(cursorLog, weaponsUpdateLogs, updateLogTable)
 
-    sleep(10)
+        sleep(10)
+
+parseAndInsertPage(directory="godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], weaponTable=godliesTable, updateLogTable=godliesUpdateLogTable)
+parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tier3w", "tier2w", "tier1w"], weaponTable=chromasTable, updateLogTable=chromasUpdateLogTable)
+parseAndInsertPage(directory="legendaries", gameRarity="legendary", expectedTiers=["tiertierspecial", "tier3", "tier2", "tier1"], weaponTable=legendariesTable, updateLogTable=legendariesUpdateLogTable)
+parseAndInsertPage(directory="ancients", gameRarity="ancient", expectedTiers=["2", "1"], weaponTable=ancientsTable, updateLogTable=ancientsUpdateLogTable)
+
+connection.commit()
+connectionLog.commit()
 
 connection.close()
 connectionLog.close()

@@ -34,7 +34,7 @@ createTableWeapons(cursor, chromasTable)
 createTableWeapons(cursor, legendariesTable)
 createTableWeapons(cursor, ancientsTable)
 
-cursor.execute("UPDATE legendaries SET chanceOfRising = NULL WHERE chanceOfRising = 'N/A';")
+# cursor.execute("UPDATE legendaries SET chanceOfRising = NULL WHERE chanceOfRising = 'N/A';")
 
 # godlies = parsePageForItems("https://supremevalues.com/mm2/godlies")
 # updateLogs = findUpdateLog("https://supremevalues.com/mm2/godlies")
