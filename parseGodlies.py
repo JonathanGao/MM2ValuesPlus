@@ -8,11 +8,9 @@ from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass,
 
 
 # Optional date is used to filter the godlies by the date they were added. This is used to get historical data from the archive and use the date that it was archived at.
-def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], dateUsed: Optional[date] = None):
+def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], dateUsed: Optional[datetime] = None, html: Optional[BeautifulSoup] = None):
 
-    if dateUsed:
-        dateUsed = datetime.combine(dateUsed, time.min)
-    else:
+    if not dateUsed:
         dateUsed = getCurrentTimestamp()
 
     response = requests.get(link)
@@ -21,7 +19,11 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
         sys.exit(1)
 
     source = getSourceFromLink(link)
-    soup = BeautifulSoup(response.text, "lxml")
+
+    if not html:
+        soup = BeautifulSoup(response.text, "lxml")
+    else:
+        soup = html
 
     # Get the body of the page
     body = soup.body
@@ -147,14 +149,17 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
 
     return FinalWeaponsList
 
-def findUpdateLog(link: str, date: Optional[date] = None):
+def findUpdateLog(link: str, date: Optional[date] = None, html: Optional[BeautifulSoup] = None):
     # Get the html page from the link
     response = requests.get(link)
     if response.status_code != 200:
         print("Failed to get the response")
         sys.exit(1)
     source = getSourceFromLink(link)
-    soup = BeautifulSoup(response.text, "lxml")
+    if not html:
+        soup = BeautifulSoup(response.text, "lxml")
+    else:
+        soup = html
 
     # Get the update log, it's a div with id "updatelog" and it contains a lot of children that are all divs.
     finalUpdateLogs = []
