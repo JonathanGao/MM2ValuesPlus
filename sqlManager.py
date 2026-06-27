@@ -1,5 +1,7 @@
 import sqlite3
 
+from utils import formatValue
+
 def createTableWeapons(cursor, tableName):
     cursor.execute(f"""
     CREATE TABLE IF NOT EXISTS {tableName} (
@@ -37,18 +39,17 @@ def getWeaponRange(weaponsData):
         # Range is a string, parse the string to separate it into the minimum and maximums of the range.
         Range = weapon["range"]
         minRange, maxRange = None, None
-        if Range == "N/A":
-            minRange, maxRange = weapon["value"], weapon["value"]
-        elif "-" in Range:
+        if "-" in Range:
             rawParsedRange = list(map(lambda x: x.strip(), Range.split("-")))
-            finalParsedRange = list(map(lambda x: int(x.replace(",", "")), rawParsedRange))
+            finalParsedRange = list(map(lambda x: formatValue(x), rawParsedRange))
+            
             if finalParsedRange[0] > finalParsedRange[1]:
                 minRange, maxRange = finalParsedRange[1], finalParsedRange[0]
             else:
                 minRange, maxRange = finalParsedRange[0], finalParsedRange[1]
         else:
-            print("Invalid range format")
-            return None
+            value = formatValue(weapon["value"])
+            minRange, maxRange = value, value
         weaponRange[weapon["name"]] = {
             "minRange": minRange,
             "maxRange": maxRange,

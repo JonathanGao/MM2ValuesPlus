@@ -39,10 +39,15 @@ createTableWeapons(cursor, legendariesTable)
 createTableWeapons(cursor, ancientsTable)
 
 def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str], weaponTable: str, updateLogTable: str):
-    weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json").json()
+    try:
+        weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json", timeout=20).json()
+    except Exception as e:
+        print(f"Failed to get the weapons archive indexes for {directory}")
+        print(e)
+        return
     header = weaponsArchiveIndexes[0]
     # Turn archiveIndexes into a dictionary rather than a list of lists
-    weaponArchiveIndexes = [dict(zip(header, index)) for index in weaponArchiveIndexes[1:]]
+    weaponsArchiveIndexes = [dict(zip(header, index)) for index in weaponsArchiveIndexes[1:]]
     siteUrl = f"https://supremevalues.com/mm2/{directory}/"
 
     for index in weaponsArchiveIndexes:
@@ -58,13 +63,13 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
 
         sleep(10)
 
-parseAndInsertPage(directory="godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], weaponTable=godliesTable, updateLogTable=godliesUpdateLogTable)
-parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tier3w", "tier2w", "tier1w"], weaponTable=chromasTable, updateLogTable=chromasUpdateLogTable)
+# parseAndInsertPage(directory="godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], weaponTable=godliesTable, updateLogTable=godliesUpdateLogTable)
+# parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tier3w", "tier2w", "tier1w"], weaponTable=chromasTable, updateLogTable=chromasUpdateLogTable)
 parseAndInsertPage(directory="legendaries", gameRarity="legendary", expectedTiers=["tiertierspecial", "tier3", "tier2", "tier1"], weaponTable=legendariesTable, updateLogTable=legendariesUpdateLogTable)
 parseAndInsertPage(directory="ancients", gameRarity="ancient", expectedTiers=["2", "1"], weaponTable=ancientsTable, updateLogTable=ancientsUpdateLogTable)
 
-connection.commit()
-connectionLog.commit()
+# connection.commit()
+# connectionLog.commit()
 
 connection.close()
 connectionLog.close()

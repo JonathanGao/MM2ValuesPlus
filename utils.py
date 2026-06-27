@@ -98,3 +98,17 @@ def parseTierTable(tierTable, tier : int or str):
         print(f"Multiple elements with class 'tier-{tier}' found")
         sys.exit(1)
     return tierTables[0]
+
+def formatValue(value: str):
+
+    text = str(value.strip().replace(",", ""))
+
+    if text.upper().endswith("K"):
+        number = float(text[:-1]) * 1000
+    elif text.upper().endswith("M"):
+        number = float(text[:-1]) * 1000000
+    elif "." in text:
+        return float(text)
+    else:
+        return int(text)
+    return int(number) if number == int(number) else number
