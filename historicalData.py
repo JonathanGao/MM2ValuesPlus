@@ -52,7 +52,7 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
     siteUrl = f"https://supremevalues.com/mm2/{directory}/"
 
     for index in weaponsArchiveIndexes:
-        page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}id_/{siteUrl}", timeout=60)
+        page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}id_/{siteUrl}", timeout=100)
         print(f"Retrieved page {index} from {index["timestamp"]}")
         if len(page.text) < 5000 or "main-wrapper" not in page.text:
             print(f"Skipping bad snapshot {index['timestamp']} (length {len(page.text)})")
@@ -81,6 +81,8 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
         print(df["createdAt"].unique())
         insertWeapons(cursor, weapons, weaponsRange, weaponTable)
         insertUpdateLog(cursorLog, weaponsUpdateLogs, updateLogTable)
+        connection.commit()
+        connectionLog.commit()
 
         sleep(10)
 
