@@ -54,6 +54,9 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
     for index in weaponsArchiveIndexes:
         page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}id_/{siteUrl}", timeout=60)
         print(f"Retrieved page {index} from {index["timestamp"]}")
+        if len(page.text) < 5000 or "main-wrapper" not in page.text:
+            print(f"Skipping bad snapshot {index['timestamp']} (length {len(page.text)})")
+            continue
         dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
 
         # The functions need dateUsed to be passed in to make it a value for the createdAt key in the dictionary
@@ -76,8 +79,8 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
         df = pd.DataFrame(rows)
         print(df.head())
         print(df["createdAt"].unique())
-        # insertWeapons(cursor, weapons, weaponsRange, weaponTable)
-        # insertUpdateLog(cursorLog, weaponsUpdateLogs, updateLogTable)
+        insertWeapons(cursor, weapons, weaponsRange, weaponTable)
+        insertUpdateLog(cursorLog, weaponsUpdateLogs, updateLogTable)
 
         sleep(10)
 
@@ -86,8 +89,8 @@ parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tie
 parseAndInsertPage(directory="legendaries", gameRarity="legendary", expectedTiers=["tiertierspecial", "tier3", "tier2", "tier1"], weaponTable=legendariesTable, updateLogTable=legendariesUpdateLogTable)
 parseAndInsertPage(directory="ancients", gameRarity="ancient", expectedTiers=["2", "1"], weaponTable=ancientsTable, updateLogTable=ancientsUpdateLogTable)
 
-# connection.commit()
-# connectionLog.commit()
+connection.commit()
+connectionLog.commit()
 
 connection.close()
 connectionLog.close()
