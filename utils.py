@@ -3,6 +3,19 @@ import sys
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone
+from playwright.sync_api import sync_playwright
+
+def fetchPage(link: str) -> str:
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        response = page.goto(link, wait_until="domcontentloaded", timeout=90_000)
+        html = page.content()
+        browser.close()
+        if response and response.status != 200:
+            print(f"Failed to get the response with status code {response.status}")
+            sys.exit(1)
+        return html
 
 def getCurrentTimestamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
@@ -50,7 +63,7 @@ def parseForSingleElementOnClass(element, type : str, class_ : str):
     if type:
         elements = element.find_all(type, class_=class_)
         if not elements:
-            print(f"Failed to get the element with class '{class_}' and type '{type}'")
+            print(f"Failed to get the element with class '{class_}' and type '{type}' for link {element}")
             sys.exit(1)
         elif len(elements) != 1 and len(elements) > 0:
             print(f"Multiple elements with class '{class_}' and type '{type}' found")

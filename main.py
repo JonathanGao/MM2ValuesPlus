@@ -98,7 +98,7 @@ def main():
         print("Ancients update log already scraped today, skipping")
 
     
-    if anyInserted:
+    if anyInserted == True:
         connection.commit()
         connectionLog.commit()
         print("Committed new data to databases")

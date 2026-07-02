@@ -1,5 +1,6 @@
 import sqlite3
 
+from datetime import datetime, timezone, date
 from utils import formatValue
 
 def createTableWeapons(cursor, tableName):
@@ -85,18 +86,27 @@ def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
 def insertUpdateLog(cursor, updateLogs, updateLogTable: str):
     for updateLog in updateLogs:
         cursor.execute(f"""
-        INSERT INTO {updateLogTable} (source, log)
-        VALUES (?, ?)
+        INSERT INTO {updateLogTable} (source, log, createdAt)
+        VALUES (?, ?, ?)
         """, (
             updateLog["source"],
             updateLog["log"],
+            updateLog["createdAt"],
         ))
     print("insertUpdateLog function success")
 
 def scrapedToday(cursor, tableName: str, source: str = "supremevalues") -> bool:
     cursor.execute(f"""
         SELECT 1 FROM {tableName}
-        WHERE source = ? AND date(createdAt) = date('now', 'localtime')
+        WHERE source = ? AND date(createdAt) = date('now', 'utc')
         LIMIT 1
     """, (source,))
+    return cursor.fetchone() is not None
+
+def scrapedOnDate(cursor, tableName, date: date): 
+    cursor.execute(f"""
+    SELECT 1 FROM {tableName}
+    WHERE source = ? AND date(createdAt) = date(?, 'utc')
+    """, (source, date.strftime("%Y-%m-%d")))
+    # Returns true if fetchone() gets a result and falose if it doesn't
     return cursor.fetchone() is not None

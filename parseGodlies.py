@@ -4,7 +4,9 @@ from bs4 import BeautifulSoup
 import lxml
 from typing import Optional
 from datetime import datetime, timezone, date, time
-from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass, parseForSingleElementOnId, parseTierTable, getSourceFromLink, getCurrentTimestamp
+from utils import parseForMultipleElementsOnClass, parseForSingleElementOnClass, parseForSingleElementOnId, parseTierTable, getSourceFromLink, getCurrentTimestamp, fetchPage
+from playwright.sync_api import sync_playwright
+
 
 
 # Optional date is used to filter the godlies by the date they were added. This is used to get historical data from the archive and use the date that it was archived at.
@@ -13,15 +15,14 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
     if not dateUsed:
         dateUsed = getCurrentTimestamp()
 
-    response = requests.get(link)
-    if response.status_code != 200:
-        print("Failed to get the response")
-        sys.exit(1)
+
 
     source = getSourceFromLink(link)
 
     if not html:
-        soup = BeautifulSoup(response.text, "lxml")
+        # Use a user agent to avoid being blocked by the server
+        html =fetchPage(link)
+        soup = BeautifulSoup(html, "lxml")
     else:
         soup = BeautifulSoup(html, "lxml")
 
@@ -149,15 +150,17 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
 
     return FinalWeaponsList
 
-def findUpdateLog(link: str, date: Optional[date] = None, html: Optional[BeautifulSoup] = None):
+def findUpdateLog(link: str, date: Optional[date] = None, html: Optional[str] = None):
+    
+    if not date:
+        date = getCurrentTimestamp()
+
     # Get the html page from the link
-    response = requests.get(link)
-    if response.status_code != 200:
-        print("Failed to get the response")
-        sys.exit(1)
+
     source = getSourceFromLink(link)
     if not html:
-        soup = BeautifulSoup(response.text, "lxml")
+        html = fetchPage(link)
+        soup = BeautifulSoup(html, "lxml")
     else:
         soup = BeautifulSoup(html, "lxml")
 
@@ -174,6 +177,12 @@ def findUpdateLog(link: str, date: Optional[date] = None, html: Optional[Beautif
         finalUpdateLogs.append({
             "source": source,
             "log": tag.text,
-            "createdAt": getCurrentTimestamp(),
+            "createdAt": date,
+        })
+    if updateLog == []:
+        finalUpdateLogs.append({
+            "source": source,
+            "log": "(no changes)",
+            "createdAt": date,
         })
     return finalUpdateLogs

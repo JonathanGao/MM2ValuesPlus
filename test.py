@@ -3,10 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import sqlite3
+import pandas as pd
 
 from datetime import datetime, timezone, date, time
 from parseGodlies import parsePageForItems, findUpdateLog
 from sqlManager import createTableWeapons, createTableUpdateLog, getWeaponRange, insertWeapons, insertUpdateLog
+from playwright.sync_api import sync_playwright
+
 godliesDb = "godlies.db"
 godliesTable = "godlies"
 chromasTable = "chromas"
@@ -18,21 +21,33 @@ chromasUpdateLogTable = "ChromasUpdateLog"
 legendariesUpdateLogTable = "LegendariesUpdateLog"
 ancientsUpdateLogTable = "AncientsUpdateLog"
 
-connection = sqlite3.connect(godliesDb)
-cursor = connection.cursor()
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=False)
+    page = browser.new_page()
+    page.goto(
+        "https://supremevalues.com/mm2/godlies",
+        timeout=90_000
+        )
+    title = page.title()
+    print(title)
+    page.close()
+    browser.close()
 
-connectionLog = sqlite3.connect(updateLogDb)
-cursorLog = connectionLog.cursor()
+# connection = sqlite3.connect(godliesDb)
+# cursor = connection.cursor()
 
-createTableUpdateLog(cursorLog, godliesUpdateLogTable)
-createTableUpdateLog(cursorLog, chromasUpdateLogTable)
-createTableUpdateLog(cursorLog, legendariesUpdateLogTable)
-createTableUpdateLog(cursorLog, ancientsUpdateLogTable)
+# connectionLog = sqlite3.connect(updateLogDb)
+# cursorLog = connectionLog.cursor()
 
-createTableWeapons(cursor, godliesTable)
-createTableWeapons(cursor, chromasTable)
-createTableWeapons(cursor, legendariesTable)
-createTableWeapons(cursor, ancientsTable)
+# createTableUpdateLog(cursorLog, godliesUpdateLogTable)
+# createTableUpdateLog(cursorLog, chromasUpdateLogTable)
+# createTableUpdateLog(cursorLog, legendariesUpdateLogTable)
+# createTableUpdateLog(cursorLog, ancientsUpdateLogTable)
+
+# createTableWeapons(cursor, godliesTable)
+# createTableWeapons(cursor, chromasTable)
+# createTableWeapons(cursor, legendariesTable)
+# createTableWeapons(cursor, ancientsTable)
 
 # cursor.execute("UPDATE legendaries SET chanceOfRising = NULL WHERE chanceOfRising = 'N/A';")
 
@@ -59,7 +74,7 @@ createTableWeapons(cursor, ancientsTable)
 # insertUpdateLog(cursorLog, ancientsUpdateLogs, ancientsUpdateLogTable)
 
 # connectionLog.commit()
-connection.commit()
+# connection.commit()
 
-connection.close()
-connectionLog.close()
+# connection.close()
+# connectionLog.close()

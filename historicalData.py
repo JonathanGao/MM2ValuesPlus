@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 import sqlite3
+import pandas as pd
 
 from time import sleep
 from datetime import datetime, timezone
@@ -40,7 +41,7 @@ createTableWeapons(cursor, ancientsTable)
 
 def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str], weaponTable: str, updateLogTable: str):
     try:
-        weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json", timeout=20).json()
+        weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json", timeout=100).json()
     except Exception as e:
         print(f"Failed to get the weapons archive indexes for {directory}")
         print(e)
@@ -51,20 +52,37 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
     siteUrl = f"https://supremevalues.com/mm2/{directory}/"
 
     for index in weaponsArchiveIndexes:
-        page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}/{siteUrl}")
+        page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}id_/{siteUrl}", timeout=60)
         print(f"Retrieved page {index} from {index["timestamp"]}")
-        dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+        dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
 
-        weapons = parsePageForItems("https://supremevalues.com/", gameRarity=gameRarity, expectedTiers=expectedTiers, html=page.text)
+        # The functions need dateUsed to be passed in to make it a value for the createdAt key in the dictionary
+        weapons = parsePageForItems("https://supremevalues.com/", gameRarity=gameRarity, expectedTiers=expectedTiers, dateUsed=dateUsed, html=page.text)
         weaponsRange = getWeaponRange(weapons)
-        weaponsUpdateLogs = findUpdateLog("https://supremevalues.com/", html=page.text)
-        insertWeapons(cursor, weapons, weaponsRange, weaponTable)
-        insertUpdateLog(cursorLog, weaponsUpdateLogs, updateLogTable)
+        weaponsUpdateLogs = findUpdateLog("https://supremevalues.com/", date=dateUsed, html=page.text)
+
+        rows = []
+        for i in weapons:
+            weapon = weapons[i]
+            r = weaponsRange[weapon["name"]]
+            rows.append({
+                "name": weapon["name"],
+                "tier": weapon["tier"],
+                "value": weapon["value"],
+                "minRange": r["minRange"],
+                "maxRange": r["maxRange"],
+                "createdAt": weapon["createdAt"],
+            })
+        df = pd.DataFrame(rows)
+        print(df.head())
+        print(df["createdAt"].unique())
+        # insertWeapons(cursor, weapons, weaponsRange, weaponTable)
+        # insertUpdateLog(cursorLog, weaponsUpdateLogs, updateLogTable)
 
         sleep(10)
 
-# parseAndInsertPage(directory="godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], weaponTable=godliesTable, updateLogTable=godliesUpdateLogTable)
-# parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tier3w", "tier2w", "tier1w"], weaponTable=chromasTable, updateLogTable=chromasUpdateLogTable)
+parseAndInsertPage(directory="godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"], weaponTable=godliesTable, updateLogTable=godliesUpdateLogTable)
+parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tier3w", "tier2w", "tier1w"], weaponTable=chromasTable, updateLogTable=chromasUpdateLogTable)
 parseAndInsertPage(directory="legendaries", gameRarity="legendary", expectedTiers=["tiertierspecial", "tier3", "tier2", "tier1"], weaponTable=legendariesTable, updateLogTable=legendariesUpdateLogTable)
 parseAndInsertPage(directory="ancients", gameRarity="ancient", expectedTiers=["2", "1"], weaponTable=ancientsTable, updateLogTable=ancientsUpdateLogTable)
 
