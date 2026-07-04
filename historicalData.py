@@ -103,4 +103,6 @@ parseAndInsertPage(directory="chromas", gameRarity="chroma", expectedTiers=["tie
 parseAndInsertPage(directory="legendaries", gameRarity="legendary", expectedTiers=["tiertierspecial", "tier3", "tier2", "tier1"], weaponTable=legendariesTable, updateLogTable=legendariesUpdateLogTable)
 parseAndInsertPage(directory="ancients", gameRarity="ancient", expectedTiers=["2", "1"], weaponTable=ancientsTable, updateLogTable=ancientsUpdateLogTable)
 
+connection.close()
+connectionLog.close()
 print("Disconnected from databases")
