@@ -20,6 +20,10 @@ echo "===== Run started: $(date '+%Y-%m-%d %H:%M:%S') =====" >> "$logFile"
 python3 main.py >> "$logFile" 2>&1
 exitCode=$?
 
+python3 dedupeDatabase.py >> "$logFile" 2>&1
+exitCode=$?
+
+
 # Log the end of the run
 if [ $exitCode -eq 0 ]; then
     echo "===== Run finished successfully: $(date '+%Y-%m-%d %H:%M:%S') =====" >> "$logFile"

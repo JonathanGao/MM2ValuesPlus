@@ -26,21 +26,26 @@ cursor = connection.cursor()
 connectionLog = sqlite3.connect(updateLogDb)
 cursorLog = connectionLog.cursor()
 
-def dedupeTable(cursor, tableName):
+def dedupeTable(cursor, tableName, groupCategory = "name"):
     cursor.execute(f"""
     DELETE FROM {tableName}
     WHERE id NOT IN (
     SELECT MAX(id)
     FROM {tableName}
-    GROUP BY name, date(createdAt)
+    GROUP BY {groupCategory}, date(createdAt)
     );
     """)
     print(f"Deduped {tableName} table")
 
-dedupeTable(cursor, godliesTable)
-dedupeTable(cursor, chromasTable)
-dedupeTable(cursor, legendariesTable)
-dedupeTable(cursor, ancientsTable)
+dedupeTable(cursor, godliesTable, "name")
+dedupeTable(cursor, chromasTable, "name")
+dedupeTable(cursor, legendariesTable, "name")
+dedupeTable(cursor, ancientsTable, "name")
+
+dedupeTable(cursorLog, godliesUpdateLogTable, "log")
+dedupeTable(cursorLog, chromasUpdateLogTable, "log")
+dedupeTable(cursorLog, legendariesUpdateLogTable, "log")
+dedupeTable(cursorLog, ancientsUpdateLogTable, "log")
 
 connection.commit()
 connectionLog.commit()

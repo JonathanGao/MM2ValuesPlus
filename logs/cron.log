@@ -126,3 +126,38 @@ Ancients update log already scraped today, skipping
 Nothing new to commit — today's data already exists
 Disconnected from databases
 ===== Run finished successfully: 2026-07-02 19:10:25 =====
+===== Run started: 2026-07-03 19:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Traceback (most recent call last):
+  File "/home/jonat/MM2ValuesPlus/dedupeDatabase.py", line 45, in <module>
+    dedupeTable(cursor, godliesUpdateLogTable, "log")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jonat/MM2ValuesPlus/dedupeDatabase.py", line 30, in dedupeTable
+    cursor.execute(f"""
+    ~~~~~~~~~~~~~~^^^^^
+    DELETE FROM {tableName}
+    ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    );
+    ^^
+    """)
+    ^^^^
+sqlite3.OperationalError: no such table: GodliesUpdateLog
+===== Run FAILED (exit 1): 2026-07-03 19:00:11 =====

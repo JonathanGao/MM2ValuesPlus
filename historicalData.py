@@ -52,12 +52,24 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
     siteUrl = f"https://supremevalues.com/mm2/{directory}/"
 
     for index in weaponsArchiveIndexes:
+        dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
+        
+        scraped = scrapedOnDate(cursor, weaponTable, dateUsed)
+        scrapedLog = scrapedOnDate(cursorLog, updateLogTable, dateUsed)
+        if scraped:
+            print(f"Skipping {dateUsed} because it already exists")
+            continue
+        elif scrapedLog:
+            print(f"Skipping {dateUsed} because it already exists in the update log")
+            continue
+        
+        
         page = requests.get(f"https://web.archive.org/web/{index["timestamp"]}id_/{siteUrl}", timeout=100)
         print(f"Retrieved page {index} from {index["timestamp"]}")
         if len(page.text) < 5000 or "main-wrapper" not in page.text:
             print(f"Skipping bad snapshot {index['timestamp']} (length {len(page.text)})")
             continue
-        dateUsed = datetime.strptime(index["timestamp"], "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
+        
 
         # The functions need dateUsed to be passed in to make it a value for the createdAt key in the dictionary
         weapons = parsePageForItems("https://supremevalues.com/", gameRarity=gameRarity, expectedTiers=expectedTiers, dateUsed=dateUsed, html=page.text)
