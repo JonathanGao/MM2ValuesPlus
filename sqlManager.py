@@ -103,7 +103,7 @@ def scrapedToday(cursor, tableName: str, source: str = "supremevalues") -> bool:
     """, (source,))
     return cursor.fetchone() is not None
 
-def scrapedOnDate(cursor, tableName, date: date): 
+def scrapedOnDate(cursor, tableName, date: date, source: str = "supremevalues"): 
     cursor.execute(f"""
     SELECT 1 FROM {tableName}
     WHERE source = ? AND date(createdAt) = date(?, 'utc')
