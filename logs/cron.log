@@ -161,3 +161,59 @@ Traceback (most recent call last):
     ^^^^
 sqlite3.OperationalError: no such table: GodliesUpdateLog
 ===== Run FAILED (exit 1): 2026-07-03 19:00:11 =====
+===== Run started: 2026-07-04 21:32:50 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-04 21:33:00 =====
+===== Run started: 2026-07-05 19:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Godlies already scraped today, skipping
+Godlies update log already scraped today, skipping
+Chromas already scraped today, skipping
+Chromas update log already scraped today, skipping
+Legendaries already scraped today, skipping
+Legendaries update log already scraped today, skipping
+Ancients already scraped today, skipping
+Ancients update log already scraped today, skipping
+Nothing new to commit — today's data already exists
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-05 19:00:02 =====
