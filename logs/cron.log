@@ -217,3 +217,1369 @@ Deduped AncientsUpdateLog table
 Committed deduplicated data to databases
 Disconnected from databases
 ===== Run finished successfully: 2026-07-05 19:00:02 =====
+===== Run started: 2026-07-12 19:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-12 19:00:11 =====
+===== Run started: 2026-07-14 19:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-14 19:00:10 =====
+===== Run started: 2026-07-24 15:44:17 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Traceback (most recent call last):
+  File "/home/jonat/MM2ValuesPlus/main.py", line 112, in <module>
+    main()
+    ~~~~^^
+  File "/home/jonat/MM2ValuesPlus/main.py", line 45, in main
+    godlies = parsePageForItems("https://supremevalues.com/mm2/godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"])
+  File "/home/jonat/MM2ValuesPlus/parseGodlies.py", line 24, in parsePageForItems
+    html =fetchPage(link)
+  File "/home/jonat/MM2ValuesPlus/utils.py", line 12, in fetchPage
+    response = page.goto(link, wait_until="domcontentloaded", timeout=90_000)
+  File "/home/jonat/MM2ValuesPlus/.venv/lib/python3.14/site-packages/playwright/sync_api/_generated.py", line 9770, in goto
+    self._sync(
+    ~~~~~~~~~~^
+        self._impl_obj.goto(
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        )
+        ^
+    )
+    ^
+  File "/home/jonat/MM2ValuesPlus/.venv/lib/python3.14/site-packages/playwright/_impl/_sync_base.py", line 113, in _sync
+    self._dispatcher_fiber.switch()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/jonat/MM2ValuesPlus/.venv/lib/python3.14/site-packages/playwright/sync_api/_context_manager.py", line 56, in greenlet_main
+    self._loop.run_until_complete(self._connection.run_as_sync())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 706, in run_until_complete
+    self.run_forever()
+    ~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 677, in run_forever
+    self._run_once()
+    ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/asyncio/base_events.py", line 2019, in _run_once
+    event_list = self._selector.select(timeout)
+  File "/usr/lib/python3.14/selectors.py", line 452, in select
+    fd_event_list = self._selector.poll(timeout, max_ev)
+KeyboardInterrupt
+Future exception was never retrieved
+future: <Future finished exception=TargetClosedError('Target page, context or browser has been closed')>
+playwright._impl._errors.TargetClosedError: Target page, context or browser has been closed
+===== Run started: 2026-07-24 15:44:26 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 15:44:35 =====
+===== Run started: 2026-07-24 16:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 16:00:13 =====
+===== Run started: 2026-07-24 17:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 17:00:11 =====
+===== Run started: 2026-07-24 18:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 18:00:08 =====
+===== Run started: 2026-07-24 19:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 19:00:04 =====
+===== Run started: 2026-07-24 20:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 20:00:04 =====
+===== Run started: 2026-07-24 21:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 21:00:03 =====
+===== Run started: 2026-07-24 22:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 22:00:03 =====
+===== Run started: 2026-07-24 23:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-24 23:00:03 =====
+===== Run started: 2026-07-25 00:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 00:00:03 =====
+===== Run started: 2026-07-25 01:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 01:00:04 =====
+===== Run started: 2026-07-25 02:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 02:00:03 =====
+===== Run started: 2026-07-25 15:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 15:00:13 =====
+===== Run started: 2026-07-25 16:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 16:00:14 =====
+===== Run started: 2026-07-25 17:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 17:00:06 =====
+===== Run started: 2026-07-25 18:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 18:00:05 =====
+===== Run started: 2026-07-25 19:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 19:00:03 =====
+===== Run started: 2026-07-25 20:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 20:00:04 =====
+===== Run started: 2026-07-25 21:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 21:00:03 =====
+===== Run started: 2026-07-25 22:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 22:00:04 =====
+===== Run started: 2026-07-25 23:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-25 23:00:03 =====
+===== Run started: 2026-07-26 00:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 00:00:03 =====
+===== Run started: 2026-07-26 01:00:02 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 01:00:07 =====
+===== Run started: 2026-07-26 02:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 02:00:04 =====
+===== Run started: 2026-07-26 03:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 03:00:04 =====
+===== Run started: 2026-07-26 04:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 04:00:04 =====
+===== Run started: 2026-07-26 05:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 05:00:03 =====
+===== Run started: 2026-07-26 06:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 06:00:03 =====
+===== Run started: 2026-07-26 07:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 07:00:03 =====
+===== Run started: 2026-07-26 08:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 08:00:04 =====
+===== Run started: 2026-07-26 09:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 09:00:05 =====
+===== Run started: 2026-07-26 10:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 10:00:04 =====
+===== Run started: 2026-07-26 11:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-26 11:00:04 =====
+===== Run started: 2026-07-27 00:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-27 00:00:05 =====
+===== Run started: 2026-07-27 13:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-27 13:00:08 =====
+===== Run started: 2026-07-27 14:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Failed to get the item flippability for item column Batwing
+Failed to get the item chance of rising for item column Batwing
+Failed to get the item flippability for item column Black Luger
+Failed to get the item chance of rising for item column Black Luger
+Failed to get the item flippability for item column Mortal Blade
+Failed to get the item chance of rising for item column Mortal Blade
+Failed to get the item flippability for item column Heart Wand
+Failed to get the item chance of rising for item column Heart Wand
+Failed to get the item flippability for item column Ocean
+Failed to get the item chance of rising for item column Ocean
+Failed to get the item flippability for item column Waves
+Failed to get the item chance of rising for item column Waves
+Failed to get the item flippability for item column Xenoknife
+Failed to get the item chance of rising for item column Xenoknife
+Failed to get the item flippability for item column Xenoshot
+Failed to get the item chance of rising for item column Xenoshot
+Failed to get the item flippability for item column Flowerwood Gun
+Failed to get the item chance of rising for item column Flowerwood Gun
+Failed to get the item flippability for item column Blizzard
+Failed to get the item chance of rising for item column Blizzard
+Failed to get the item flippability for item column Flowerwood
+Failed to get the item chance of rising for item column Flowerwood
+Failed to get the item flippability for item column Snowstorm
+Failed to get the item chance of rising for item column Snowstorm
+Failed to get the item flippability for item column Snow Dagger
+Failed to get the item chance of rising for item column Snow Dagger
+Failed to get the item flippability for item column Beachy
+Failed to get the item chance of rising for item column Beachy
+Failed to get the item flippability for item column Sands
+Failed to get the item chance of rising for item column Sands
+Failed to get the item flippability for item column Watergun
+Failed to get the item chance of rising for item column Watergun
+Failed to get the item flippability for item column Treat
+Failed to get the item chance of rising for item column Treat
+Failed to get the item flippability for item column Borealis
+Failed to get the item chance of rising for item column Borealis
+Failed to get the item flippability for item column Sweet
+Failed to get the item chance of rising for item column Sweet
+Failed to get the item flippability for item column Australis
+Failed to get the item chance of rising for item column Australis
+Failed to get the item flippability for item column Bat
+Failed to get the item chance of rising for item column Bat
+Failed to get the item flippability for item column Pearlshine
+Failed to get the item chance of rising for item column Pearlshine
+Failed to get the item flippability for item column Pearl
+Failed to get the item chance of rising for item column Pearl
+Failed to get the item flippability for item column Candy
+Failed to get the item chance of rising for item column Candy
+Failed to get the item flippability for item column Heartblade
+Failed to get the item chance of rising for item column Heartblade
+Failed to get the item flippability for item column Luger
+Failed to get the item chance of rising for item column Luger
+Failed to get the item flippability for item column Red Luger
+Failed to get the item chance of rising for item column Red Luger
+Failed to get the item flippability for item column Phantom
+Failed to get the item chance of rising for item column Phantom
+Failed to get the item flippability for item column Spectre
+Failed to get the item chance of rising for item column Spectre
+Failed to get the item flippability for item column Candleflame
+Failed to get the item chance of rising for item column Candleflame
+Failed to get the item flippability for item column Darkbringer
+Failed to get the item chance of rising for item column Darkbringer
+Failed to get the item flippability for item column Elderwood Blade
+Failed to get the item chance of rising for item column Elderwood Blade
+Failed to get the item flippability for item column Elderwood Revolver
+Failed to get the item chance of rising for item column Elderwood Revolver
+Failed to get the item flippability for item column Iceblaster
+Failed to get the item chance of rising for item column Iceblaster
+Failed to get the item flippability for item column Lightbringer
+Failed to get the item chance of rising for item column Lightbringer
+Failed to get the item flippability for item column Makeshift
+Failed to get the item chance of rising for item column Makeshift
+Failed to get the item flippability for item column Sugar
+Failed to get the item chance of rising for item column Sugar
+Failed to get the item flippability for item column Ornament
+Failed to get the item chance of rising for item column Ornament
+Failed to get the item flippability for item column Green Luger
+Failed to get the item chance of rising for item column Green Luger
+Failed to get the item flippability for item column Amerilaser
+Failed to get the item chance of rising for item column Amerilaser
+Failed to get the item flippability for item column Laser
+Failed to get the item chance of rising for item column Laser
+Failed to get the item flippability for item column Hallowgun
+Failed to get the item chance of rising for item column Hallowgun
+Failed to get the item flippability for item column Nightblade
+Failed to get the item chance of rising for item column Nightblade
+Failed to get the item flippability for item column Shark
+Failed to get the item chance of rising for item column Shark
+Failed to get the item flippability for item column Icebeam
+Failed to get the item chance of rising for item column Icebeam
+Failed to get the item flippability for item column Plasmabeam
+Failed to get the item chance of rising for item column Plasmabeam
+Failed to get the item flippability for item column Swirly Gun
+Failed to get the item chance of rising for item column Swirly Gun
+Failed to get the item flippability for item column Battleaxe II
+Failed to get the item chance of rising for item column Battleaxe II
+Failed to get the item flippability for item column Blaster
+Failed to get the item chance of rising for item column Blaster
+Failed to get the item flippability for item column Ginger Luger
+Failed to get the item chance of rising for item column Ginger Luger
+Failed to get the item flippability for item column Pixel
+Failed to get the item chance of rising for item column Pixel
+Failed to get the item flippability for item column Gemstone
+Failed to get the item chance of rising for item column Gemstone
+Failed to get the item flippability for item column Iceflake
+Failed to get the item chance of rising for item column Iceflake
+Failed to get the item flippability for item column Old Glory
+Failed to get the item chance of rising for item column Old Glory
+Failed to get the item flippability for item column Plasmablade
+Failed to get the item chance of rising for item column Plasmablade
+Failed to get the item flippability for item column Slasher
+Failed to get the item chance of rising for item column Slasher
+Failed to get the item flippability for item column Vampire's Edge
+Failed to get the item chance of rising for item column Vampire's Edge
+Failed to get the item flippability for item column Cookiecane
+Failed to get the item chance of rising for item column Cookiecane
+Failed to get the item flippability for item column Deathshard
+Failed to get the item chance of rising for item column Deathshard
+Failed to get the item flippability for item column Eternalcane
+Failed to get the item chance of rising for item column Eternalcane
+Failed to get the item flippability for item column Gingerblade
+Failed to get the item chance of rising for item column Gingerblade
+Failed to get the item flippability for item column Jinglegun
+Failed to get the item chance of rising for item column Jinglegun
+Failed to get the item flippability for item column Lugercane
+Failed to get the item chance of rising for item column Lugercane
+Failed to get the item flippability for item column Minty
+Failed to get the item chance of rising for item column Minty
+Failed to get the item flippability for item column Nebula
+Failed to get the item chance of rising for item column Nebula
+Failed to get the item flippability for item column Virtual
+Failed to get the item chance of rising for item column Virtual
+Failed to get the item flippability for item column Battleaxe
+Failed to get the item chance of rising for item column Battleaxe
+Failed to get the item flippability for item column Gingermint
+Failed to get the item chance of rising for item column Gingermint
+Failed to get the item flippability for item column Swirly Blade
+Failed to get the item chance of rising for item column Swirly Blade
+Failed to get the item flippability for item column Chill
+Failed to get the item chance of rising for item column Chill
+Failed to get the item flippability for item column Clockwork
+Failed to get the item chance of rising for item column Clockwork
+Failed to get the item flippability for item column Fang
+Failed to get the item chance of rising for item column Fang
+Failed to get the item flippability for item column Frostsaber
+Failed to get the item chance of rising for item column Frostsaber
+Failed to get the item flippability for item column Heat
+Failed to get the item chance of rising for item column Heat
+Failed to get the item flippability for item column Spider
+Failed to get the item chance of rising for item column Spider
+Failed to get the item flippability for item column Tides
+Failed to get the item chance of rising for item column Tides
+Failed to get the item flippability for item column Bioblade
+Failed to get the item chance of rising for item column Bioblade
+Failed to get the item flippability for item column Eternal III
+Failed to get the item chance of rising for item column Eternal III
+Failed to get the item flippability for item column Eternal IV
+Failed to get the item chance of rising for item column Eternal IV
+Failed to get the item flippability for item column Hallow's Blade
+Failed to get the item chance of rising for item column Hallow's Blade
+Failed to get the item flippability for item column Hallow's Edge
+Failed to get the item chance of rising for item column Hallow's Edge
+Failed to get the item flippability for item column Handsaw
+Failed to get the item chance of rising for item column Handsaw
+Failed to get the item flippability for item column Boneblade
+Failed to get the item chance of rising for item column Boneblade
+Failed to get the item flippability for item column Eternal
+Failed to get the item chance of rising for item column Eternal
+Failed to get the item flippability for item column Eternal II
+Failed to get the item chance of rising for item column Eternal II
+Failed to get the item flippability for item column Frostbite
+Failed to get the item chance of rising for item column Frostbite
+Failed to get the item flippability for item column Ghostblade
+Failed to get the item chance of rising for item column Ghostblade
+Failed to get the item flippability for item column Ice Dragon
+Failed to get the item chance of rising for item column Ice Dragon
+Failed to get the item flippability for item column Ice Shard
+Failed to get the item chance of rising for item column Ice Shard
+Failed to get the item flippability for item column Prismatic
+Failed to get the item chance of rising for item column Prismatic
+Failed to get the item flippability for item column Pumpking
+Failed to get the item chance of rising for item column Pumpking
+Failed to get the item flippability for item column Saw
+Failed to get the item chance of rising for item column Saw
+Failed to get the item flippability for item column Xmas
+Failed to get the item chance of rising for item column Xmas
+Failed to get the item flippability for item column Eggblade
+Failed to get the item chance of rising for item column Eggblade
+Failed to get the item flippability for item column Flames
+Failed to get the item chance of rising for item column Flames
+Failed to get the item flippability for item column Snowflake
+Failed to get the item chance of rising for item column Snowflake
+Failed to get the item flippability for item column Winter's Edge
+Failed to get the item chance of rising for item column Winter's Edge
+Failed to get the item flippability for item column Peppermint
+Failed to get the item chance of rising for item column Peppermint
+Failed to get the item flippability for item column Cookieblade
+Failed to get the item chance of rising for item column Cookieblade
+Failed to get the item flippability for item column Blue Seer
+Failed to get the item chance of rising for item column Blue Seer
+Failed to get the item flippability for item column Purple Seer
+Failed to get the item chance of rising for item column Purple Seer
+Failed to get the item flippability for item column Red Seer
+Failed to get the item chance of rising for item column Red Seer
+Failed to get the item flippability for item column Seer
+Failed to get the item chance of rising for item column Seer
+Failed to get the item flippability for item column Orange Seer
+Failed to get the item chance of rising for item column Orange Seer
+Failed to get the item flippability for item column Yellow Seer
+Failed to get the item chance of rising for item column Yellow Seer
+insertUpdateLog function success
+Failed to get the item flippability for item column Chroma Traveler's Gun
+Failed to get the item chance of rising for item column Chroma Traveler's Gun
+Failed to get the item flippability for item column Chroma Evergun
+Failed to get the item chance of rising for item column Chroma Evergun
+Failed to get the item flippability for item column Chroma Evergreen
+Failed to get the item chance of rising for item column Chroma Evergreen
+Failed to get the item flippability for item column Chroma Bauble
+Failed to get the item chance of rising for item column Chroma Bauble
+Failed to get the item flippability for item column Chroma Vampire's Gun
+Failed to get the item chance of rising for item column Chroma Vampire's Gun
+Failed to get the item flippability for item column Chroma Constellation
+Failed to get the item chance of rising for item column Chroma Constellation
+Failed to get the item flippability for item column Chroma Alienbeam
+Failed to get the item chance of rising for item column Chroma Alienbeam
+Failed to get the item flippability for item column Chroma Sunrise
+Failed to get the item chance of rising for item column Chroma Sunrise
+Failed to get the item flippability for item column Chroma Raygun
+Failed to get the item chance of rising for item column Chroma Raygun
+Failed to get the item flippability for item column Chroma Snowcannon
+Failed to get the item chance of rising for item column Chroma Snowcannon
+Failed to get the item flippability for item column Chroma Sunset
+Failed to get the item chance of rising for item column Chroma Sunset
+Failed to get the item flippability for item column Chroma Blizzard
+Failed to get the item chance of rising for item column Chroma Blizzard
+Failed to get the item flippability for item column Chroma Icecream
+Failed to get the item chance of rising for item column Chroma Icecream
+Failed to get the item flippability for item column Chroma Snow Dagger
+Failed to get the item chance of rising for item column Chroma Snow Dagger
+Failed to get the item flippability for item column Chroma Snowstorm
+Failed to get the item chance of rising for item column Chroma Snowstorm
+Failed to get the item flippability for item column Chroma Heart Wand
+Failed to get the item chance of rising for item column Chroma Heart Wand
+Failed to get the item flippability for item column Chroma Watergun
+Failed to get the item chance of rising for item column Chroma Watergun
+Failed to get the item flippability for item column Chroma Beachy
+Failed to get the item chance of rising for item column Chroma Beachy
+Failed to get the item flippability for item column Chroma Sands
+Failed to get the item chance of rising for item column Chroma Sands
+Failed to get the item flippability for item column Chroma Treat
+Failed to get the item chance of rising for item column Chroma Treat
+Failed to get the item flippability for item column Chroma Sweet
+Failed to get the item chance of rising for item column Chroma Sweet
+Failed to get the item flippability for item column Chroma Ornament
+Failed to get the item chance of rising for item column Chroma Ornament
+Failed to get the item flippability for item column Chroma Darkbringer
+Failed to get the item chance of rising for item column Chroma Darkbringer
+Failed to get the item flippability for item column Chroma Lightbringer
+Failed to get the item chance of rising for item column Chroma Lightbringer
+Failed to get the item flippability for item column Chroma Luger
+Failed to get the item chance of rising for item column Chroma Luger
+Failed to get the item flippability for item column Chroma Candleflame
+Failed to get the item chance of rising for item column Chroma Candleflame
+Failed to get the item flippability for item column Chroma Laser
+Failed to get the item chance of rising for item column Chroma Laser
+Failed to get the item flippability for item column Chroma Swirly Gun
+Failed to get the item chance of rising for item column Chroma Swirly Gun
+Failed to get the item flippability for item column Chroma Elderwood Blade
+Failed to get the item chance of rising for item column Chroma Elderwood Blade
+Failed to get the item flippability for item column Chroma Deathshard
+Failed to get the item chance of rising for item column Chroma Deathshard
+Failed to get the item flippability for item column Chroma Cookiecane
+Failed to get the item chance of rising for item column Chroma Cookiecane
+Failed to get the item flippability for item column Chroma Fang
+Failed to get the item chance of rising for item column Chroma Fang
+Failed to get the item flippability for item column Chroma Gemstone
+Failed to get the item chance of rising for item column Chroma Gemstone
+Failed to get the item flippability for item column Chroma Shark
+Failed to get the item chance of rising for item column Chroma Shark
+Failed to get the item flippability for item column Chroma Slasher
+Failed to get the item chance of rising for item column Chroma Slasher
+Failed to get the item flippability for item column Chroma Heat
+Failed to get the item chance of rising for item column Chroma Heat
+Failed to get the item flippability for item column Chroma Seer
+Failed to get the item chance of rising for item column Chroma Seer
+Failed to get the item flippability for item column Chroma Gingerblade
+Failed to get the item chance of rising for item column Chroma Gingerblade
+Failed to get the item flippability for item column Chroma Tides
+Failed to get the item chance of rising for item column Chroma Tides
+Failed to get the item flippability for item column Chroma Saw
+Failed to get the item chance of rising for item column Chroma Saw
+Failed to get the item flippability for item column Chroma Boneblade
+Failed to get the item chance of rising for item column Chroma Boneblade
+insertUpdateLog function success
+Tier tiertierspecial does not exist
+Failed to get the item flippability for item column Latte (Gun)
+Failed to get the item chance of rising for item column Latte (Gun)
+Failed to get the item flippability for item column Latte (Knife)
+Failed to get the item chance of rising for item column Latte (Knife)
+Failed to get the item flippability for item column Spectral (Knife)
+Failed to get the item chance of rising for item column Spectral (Knife)
+Failed to get the item flippability for item column Traveler (Gun)
+Failed to get the item chance of rising for item column Traveler (Gun)
+Failed to get the item flippability for item column Aurora (Gun)
+Failed to get the item chance of rising for item column Aurora (Gun)
+Failed to get the item flippability for item column Vampire (Gun)
+Failed to get the item chance of rising for item column Vampire (Gun)
+Failed to get the item flippability for item column Cotton Candy
+Failed to get the item chance of rising for item column Cotton Candy
+Failed to get the item flippability for item column Beach
+Failed to get the item chance of rising for item column Beach
+Failed to get the item flippability for item column JD
+Failed to get the item chance of rising for item column JD
+Failed to get the item flippability for item column Arctic (Gun)
+Failed to get the item chance of rising for item column Arctic (Gun)
+Failed to get the item flippability for item column Cavern (Knife)
+Failed to get the item chance of rising for item column Cavern (Knife)
+Failed to get the item flippability for item column Broken
+Failed to get the item chance of rising for item column Broken
+Failed to get the item flippability for item column Icedriller
+Failed to get the item chance of rising for item column Icedriller
+Failed to get the item flippability for item column Nightsky
+Failed to get the item chance of rising for item column Nightsky
+Failed to get the item flippability for item column Ghost (Knife)
+Failed to get the item chance of rising for item column Ghost (Knife)
+Failed to get the item flippability for item column Ginger (Gun)
+Failed to get the item chance of rising for item column Ginger (Gun)
+Failed to get the item flippability for item column Bunnies
+Failed to get the item chance of rising for item column Bunnies
+Failed to get the item flippability for item column Red Scratch
+Failed to get the item chance of rising for item column Red Scratch
+Failed to get the item flippability for item column Skulls
+Failed to get the item chance of rising for item column Skulls
+Failed to get the item flippability for item column Aurora (Knife)
+Failed to get the item chance of rising for item column Aurora (Knife)
+Failed to get the item flippability for item column Spectral (Gun)
+Failed to get the item chance of rising for item column Spectral (Gun)
+Failed to get the item flippability for item column Traveler (Knife)
+Failed to get the item chance of rising for item column Traveler (Knife)
+Failed to get the item flippability for item column Vampire (Knife)
+Failed to get the item chance of rising for item column Vampire (Knife)
+Failed to get the item flippability for item column Witched
+Failed to get the item chance of rising for item column Witched
+Failed to get the item flippability for item column Blue Elite
+Failed to get the item chance of rising for item column Blue Elite
+Failed to get the item flippability for item column Green Elite
+Failed to get the item chance of rising for item column Green Elite
+Failed to get the item flippability for item column Santa's Magic
+Failed to get the item chance of rising for item column Santa's Magic
+Failed to get the item flippability for item column Santa's Spirit
+Failed to get the item chance of rising for item column Santa's Spirit
+Failed to get the item flippability for item column Energized (Gun)
+Failed to get the item chance of rising for item column Energized (Gun)
+Failed to get the item flippability for item column Frostfade (Knife)
+Failed to get the item chance of rising for item column Frostfade (Knife)
+Failed to get the item flippability for item column Blue Scratch
+Failed to get the item chance of rising for item column Blue Scratch
+Failed to get the item flippability for item column Ghost (Gun)
+Failed to get the item chance of rising for item column Ghost (Gun)
+Failed to get the item flippability for item column Chromatic (Knife)
+Failed to get the item chance of rising for item column Chromatic (Knife)
+Failed to get the item flippability for item column Icecracker
+Failed to get the item chance of rising for item column Icecracker
+Failed to get the item flippability for item column Red Fire
+Failed to get the item chance of rising for item column Red Fire
+Failed to get the item flippability for item column Cavern (Gun)
+Failed to get the item chance of rising for item column Cavern (Gun)
+Failed to get the item flippability for item column Bubbles
+Failed to get the item chance of rising for item column Bubbles
+Failed to get the item flippability for item column Arctic (Knife)
+Failed to get the item chance of rising for item column Arctic (Knife)
+Failed to get the item flippability for item column Chromatic (Gun)
+Failed to get the item chance of rising for item column Chromatic (Gun)
+Failed to get the item flippability for item column Cursed (Knife)
+Failed to get the item chance of rising for item column Cursed (Knife)
+Failed to get the item flippability for item column Emerald
+Failed to get the item chance of rising for item column Emerald
+Failed to get the item flippability for item column Energized (Knife)
+Failed to get the item chance of rising for item column Energized (Knife)
+Failed to get the item flippability for item column Frozen (Gun)
+Failed to get the item chance of rising for item column Frozen (Gun)
+Failed to get the item flippability for item column Nightstar
+Failed to get the item chance of rising for item column Nightstar
+Failed to get the item flippability for item column Overseer (Gun)
+Failed to get the item chance of rising for item column Overseer (Gun)
+Failed to get the item flippability for item column Predator (Knife)
+Failed to get the item chance of rising for item column Predator (Knife)
+Failed to get the item flippability for item column Ripper (Knife)
+Failed to get the item chance of rising for item column Ripper (Knife)
+Failed to get the item flippability for item column Rupture
+Failed to get the item chance of rising for item column Rupture
+Failed to get the item flippability for item column Tree (Gun)
+Failed to get the item chance of rising for item column Tree (Gun)
+Failed to get the item flippability for item column Tree (Knife)
+Failed to get the item chance of rising for item column Tree (Knife)
+Failed to get the item flippability for item column Web
+Failed to get the item chance of rising for item column Web
+Failed to get the item flippability for item column Green Fire
+Failed to get the item chance of rising for item column Green Fire
+Failed to get the item flippability for item column Aquarium (Gun)
+Failed to get the item chance of rising for item column Aquarium (Gun)
+Failed to get the item flippability for item column Cursed (Gun)
+Failed to get the item chance of rising for item column Cursed (Gun)
+Failed to get the item flippability for item column Frostfade (Gun)
+Failed to get the item chance of rising for item column Frostfade (Gun)
+Failed to get the item flippability for item column Frozen (Knife)
+Failed to get the item chance of rising for item column Frozen (Knife)
+Failed to get the item flippability for item column Midnight
+Failed to get the item chance of rising for item column Midnight
+Failed to get the item flippability for item column Palms (Gun)
+Failed to get the item chance of rising for item column Palms (Gun)
+Failed to get the item flippability for item column Sparkle
+Failed to get the item chance of rising for item column Sparkle
+Failed to get the item flippability for item column Cupid
+Failed to get the item chance of rising for item column Cupid
+Failed to get the item flippability for item column Ginger (Knife)
+Failed to get the item chance of rising for item column Ginger (Knife)
+Failed to get the item flippability for item column Ripper (Gun)
+Failed to get the item chance of rising for item column Ripper (Gun)
+Failed to get the item flippability for item column Aquarium (Knife)
+Failed to get the item chance of rising for item column Aquarium (Knife)
+Failed to get the item flippability for item column Palms (Knife)
+Failed to get the item chance of rising for item column Palms (Knife)
+Failed to get the item flippability for item column Overseer (Knife)
+Failed to get the item chance of rising for item column Overseer (Knife)
+Failed to get the item flippability for item column Predator (Gun)
+Failed to get the item chance of rising for item column Predator (Gun)
+Failed to get the item flippability for item column Rune
+Failed to get the item chance of rising for item column Rune
+Failed to get the item flippability for item column Universe
+Failed to get the item chance of rising for item column Universe
+Failed to get the item flippability for item column Viper
+Failed to get the item chance of rising for item column Viper
+Failed to get the item flippability for item column Fade
+Failed to get the item chance of rising for item column Fade
+Failed to get the item flippability for item column Fusion
+Failed to get the item chance of rising for item column Fusion
+Failed to get the item flippability for item column Plasmite
+Failed to get the item chance of rising for item column Plasmite
+Failed to get the item flippability for item column Shiny
+Failed to get the item chance of rising for item column Shiny
+Failed to get the item flippability for item column Splash (Knife)
+Failed to get the item chance of rising for item column Splash (Knife)
+Failed to get the item flippability for item column Elite
+Failed to get the item chance of rising for item column Elite
+Failed to get the item flippability for item column Splash (Gun)
+Failed to get the item chance of rising for item column Splash (Gun)
+insertUpdateLog function success
+Failed to get the item flippability for item column Gingerscope
+Failed to get the item chance of rising for item column Gingerscope
+Failed to get the item flippability for item column Traveler's Axe
+Failed to get the item chance of rising for item column Traveler's Axe
+Failed to get the item flippability for item column Celestial
+Failed to get the item chance of rising for item column Celestial
+Failed to get the item flippability for item column Vampire's Axe
+Failed to get the item chance of rising for item column Vampire's Axe
+Failed to get the item flippability for item column Harvester
+Failed to get the item chance of rising for item column Harvester
+Failed to get the item flippability for item column Icepiercer
+Failed to get the item chance of rising for item column Icepiercer
+Failed to get the item flippability for item column Icebreaker
+Failed to get the item chance of rising for item column Icebreaker
+Failed to get the item flippability for item column Batwing
+Failed to get the item chance of rising for item column Batwing
+Failed to get the item flippability for item column Elderwood Scythe
+Failed to get the item chance of rising for item column Elderwood Scythe
+Failed to get the item flippability for item column Swirly Axe
+Failed to get the item chance of rising for item column Swirly Axe
+Failed to get the item flippability for item column Hallowscythe
+Failed to get the item chance of rising for item column Hallowscythe
+Failed to get the item flippability for item column Logchopper
+Failed to get the item chance of rising for item column Logchopper
+Failed to get the item flippability for item column Icewing
+Failed to get the item chance of rising for item column Icewing
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-27 14:00:57 =====
+===== Run started: 2026-07-27 14:32:20 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+Godlies already scraped today, skipping
+Godlies update log already scraped today, skipping
+Chromas already scraped today, skipping
+Chromas update log already scraped today, skipping
+Legendaries already scraped today, skipping
+Legendaries update log already scraped today, skipping
+Ancients already scraped today, skipping
+Ancients update log already scraped today, skipping
+Nothing new to commit — today's data already exists
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+===== Run finished successfully: 2026-07-27 14:32:20 =====
+===== Run skipped (already ran successfully on 2026-07-27 UTC): 2026-07-27 14:32:25 =====
+===== Run skipped (already ran successfully on 2026-07-27 UTC): 2026-07-27 14:32:44 =====
+===== Run skipped (already ran successfully on 2026-07-27 UTC): 2026-07-27 15:00:01 =====
