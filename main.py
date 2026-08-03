@@ -5,20 +5,19 @@ import lxml
 import sqlite3
 
 from parseGodlies import parsePageForItems, findUpdateLog
-from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday
+from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday, WEAPONS_RARITIES
 
 weaponsDb = "weapons.db"
-godliesTable = "godlies"
-godliesUpdateLogTable = "GodliesUpdateLog"
-godliesTable = "godlies"
-chromasTable = "chromas"
-ancientsTable = "ancients"
-legendariesTable = "legendaries"
+godliesTable = WEAPONS_RARITIES['godlies']
+chromasTable = WEAPONS_RARITIES['chromas']
+ancientsTable = WEAPONS_RARITIES['ancients']
+legendariesTable = WEAPONS_RARITIES['legendaries']
+
 updateLogDb = "updateLog.db"
 godliesUpdateLogTable = "GodliesUpdateLog"
 chromasUpdateLogTable = "ChromasUpdateLog"
-legendariesUpdateLogTable = "LegendariesUpdateLog"
 ancientsUpdateLogTable = "AncientsUpdateLog"
+legendariesUpdateLogTable = "LegendariesUpdateLog"
 
 connection = sqlite3.connect(weaponsDb)
 cursor = connection.cursor()

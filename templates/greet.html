@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h1>{% if name %}What's up {{ name }}!{% else %}I don't know your name :({% endif %}</h1>
+    <a href="/">Go back to the homepage</a>
+
+{% endblock %}

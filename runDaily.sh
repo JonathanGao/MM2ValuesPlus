@@ -32,6 +32,11 @@ if [ $exitCode -eq 0 ]; then
     exitCode=$?
 fi
 
+if [ $exitCode -eq 0 ]; then
+    python3 downloadWeaponIcons.py >> "$logFile" 2>&1
+    exitCode=$?
+fi
+
 # Log the end of the run
 if [ $exitCode -eq 0 ]; then
     echo "$today" > "$stampFile"

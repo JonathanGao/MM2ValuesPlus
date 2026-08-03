@@ -3,6 +3,14 @@ import sqlite3
 from datetime import datetime, timezone, date
 from utils import formatValue
 
+# Define rarities as they are defined in the database to avoid mixups
+WEAPONS_RARITIES = {
+    'legendaries': 'legendaries',
+    'ancients': 'ancients',
+    'chromas': 'chromas',
+    'godlies': 'godlies',
+}
+
 def createTableWeapons(cursor, tableName):
     cursor.execute(f"""
     CREATE TABLE IF NOT EXISTS {tableName} (

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+<!-- Load rarity.css -->
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rarity.css') }}">
+{% endblock %}
+
+{% block body %}
+<header class="centered">
+    <h1>{{ rarity }}</h1>
+    <div>
+        <a class="link" href="/">Back to index</a>
+    </div>
+</header>
+
+<form class="centered search-form" id="weapon-search-form">
+    <input type="text" name="name" placeholder="Search for a weapon" autocomplete="off" autofocus>
+</form>
+
+<main class="container centered">
+    {% for weapon in weapons if weapon.name not in excluded %}
+    <div class="item" style="--icon: url('{{ url_for('static', filename='weaponIcons/' ~ weapon.name ~ '.webp')}}')">
+        <h2 class="weapon-name">{{ weapon.name }}</h2>
+        <p>Value: {{ weapon.value }}</p>
+        <p>Range: {{ weapon.minRange }} - {{ weapon.maxRange }}</p>
+        <p>Stability Score: {{ weapon.stabilityScore }}</p>
+        <p>Demand: {{ weapon.demand }}</p>
+        <p>Rarity: {{ weapon.rarity }}</p>
+        {% if weapon.chanceOfRising %}<p>Chance of Rising: {{ weapon.chanceOfRising }}</p>{% endif %}
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='javascript/' ~ scripts) }}"></script>
+{% endblock %}

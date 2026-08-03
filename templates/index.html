@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<header class="centered">
+    <h1>Hello there!</h1>
+</header>
+
+<main class="centered">
+    {% for rarity in rarities %}
+    <div>
+        <h2><a class="link" href="/{{ rarity }}">{{ rarity}}</a></h2>
+    </div>
+    {% endfor%}
+</main>
+{% endblock %}

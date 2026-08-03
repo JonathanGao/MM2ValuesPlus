@@ -21,17 +21,17 @@ chromasUpdateLogTable = "ChromasUpdateLog"
 legendariesUpdateLogTable = "LegendariesUpdateLog"
 ancientsUpdateLogTable = "AncientsUpdateLog"
 
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False)
-    page = browser.new_page()
-    page.goto(
-        "https://supremevalues.com/mm2/godlies",
-        timeout=90_000
-        )
-    title = page.title()
-    print(title)
-    page.close()
-    browser.close()
+# with sync_playwright() as p:
+#     browser = p.chromium.launch(headless=False)
+#     page = browser.new_page()
+#     page.goto(
+#         "https://supremevalues.com/mm2/godlies",
+#         timeout=90_000
+#         )
+#     title = page.title()
+#     print(title)
+#     page.close()
+#     browser.close()
 
 # connection = sqlite3.connect(godliesDb)
 # cursor = connection.cursor()

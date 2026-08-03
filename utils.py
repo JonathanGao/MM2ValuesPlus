@@ -1,5 +1,5 @@
 import sys
-
+from flask import Flask, render_template
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone
@@ -125,3 +125,6 @@ def formatValue(value: str):
     else:
         return int(text)
     return int(number) if number == int(number) else number
+
+def displayErrorMessage(errorMessage: str, app: Flask):
+    return render_template("error.html", errorMessage=errorMessage)
