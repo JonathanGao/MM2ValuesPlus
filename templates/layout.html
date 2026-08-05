@@ -31,11 +31,17 @@
 
         </nav>
 
-        <div id="layout">
-            <main id="main">
-                {% block body %}
-                {% endblock %}
-            </main>
+        <div class="container">
+            <aside id="sidebar">
+                <h1 class="header">Top Movers</h1>
+            </aside>
+
+            <div id="layout">
+                <main id="main">
+                    {% block body %}
+                    {% endblock %}
+                </main>
+            </div>
         </div>
 
         {% block scripts %}

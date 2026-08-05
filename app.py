@@ -2,15 +2,17 @@ import sqlite3
 import pandas as pd
 
 from flask import Flask, render_template, request
-from sqlManager import WEAPONS_RARITIES
+from sqlManager import WEAPONS_RARITIES, EXCLUDED_GODLIES, WEAPONS_DB
 from utils import displayErrorMessage
+
+import analysis
 
 
 app = Flask(__name__)
 
 rarities = [rarity for rarity in WEAPONS_RARITIES.keys()]
-excludedGodlies = ['Black Luger', 'Mortal Blade', 'Batwing']
-weaponsDb = "weapons.db"
+weaponsDb = WEAPONS_DB
+excludedGodlies = EXCLUDED_GODLIES
 
 # Make the global variable rarities accessible to all templates
 @app.context_processor
@@ -36,3 +38,7 @@ def rarityPage(rarity):
         excluded = []
 
     return render_template("rarity.html", rarity=rarity, weapons=weapons, excluded=excluded, scripts="rarity.js")
+
+@app.route("/api/<rarity>/<weaponName>")
+def api(rarity, weaponName):
+    return analysis.getWeaponJson(rarity, weaponName, app)

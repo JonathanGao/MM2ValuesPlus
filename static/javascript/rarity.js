@@ -10,3 +10,15 @@ document.querySelector('#weapon-search-form').addEventListener('input', (event) 
         }
     });
 });
+
+document.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('click', (event) => {
+        const weaponName = event.target.closest('.item').querySelector('.weapon-name').textContent;
+        const rarity = document.getElementById('rarity-title').textContent;
+        fetch(`/api/${rarity}/${weaponName}`)
+            .then(response => response.json())
+            .then(data => {
+            console.log(data);
+        })
+    });
+});

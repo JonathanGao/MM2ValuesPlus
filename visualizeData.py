@@ -17,7 +17,7 @@ print(df["name"].nunique(), "items,", df["createdAt"].nunique(), "snapshots")
 
 import matplotlib.pyplot as plt
 
-item = "Traveler's Gun"
+item = "Blossom"
 item_df = df[df["name"] == item].sort_values("createdAt")
 
 plt.figure(figsize=(10, 5))

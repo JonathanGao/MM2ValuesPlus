@@ -11,6 +11,10 @@ WEAPONS_RARITIES = {
     'godlies': 'godlies',
 }
 
+WEAPONS_DB = "weapons.db"
+
+EXCLUDED_GODLIES = ['Black Luger', 'Mortal Blade', 'Batwing']
+
 def createTableWeapons(cursor, tableName):
     cursor.execute(f"""
     CREATE TABLE IF NOT EXISTS {tableName} (
