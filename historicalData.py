@@ -51,7 +51,7 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
 
     # CDX API: list of all archived snapshots for this page
     try:
-        weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json", timeout=100).json()
+        weaponsArchiveIndexes = requests.get(f"https://web.archive.org/cdx/search/cdx?url=https://supremevalues.com/mm2/{directory}/&output=json", timeout=120).json()
     except Exception as e:
         print(f"Failed to get the weapons archive indexes for {directory}")
         print(e)

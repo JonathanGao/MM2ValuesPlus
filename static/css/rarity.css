@@ -1,15 +1,19 @@
 .item {
     width: calc(25% - 1rem);
     height: 33vh;
-    border: 3px solid #000;
     margin: 0.5rem;
     padding: 0.5rem;
     text-align: center;
+
+    border: none;
+    border-radius: 30px;
+    background-color: #f4f4f4;
 
     background-image: var(--icon);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    background-origin: content-box;
 
     cursor: pointer;
 }
@@ -32,3 +36,16 @@
     z-index: 1;
 }
 
+#weapon-search-form {
+    position: fixed;
+    width: 20%;
+    top: 12vh;
+    z-index: 100;
+}
+
+#weapon-search-input {
+    width: 100%;
+    height: 5vh;
+    border: none;
+    border-radius: 100px;
+}

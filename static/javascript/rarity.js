@@ -1,10 +1,12 @@
+import { getData } from './rarityUtils.js';
+
 const main = document.getElementById('main');
 const weaponPanel = document.getElementById('weapon-panel');
 
 const weaponPanelButton = document.getElementById('weapon-panel-button');
 const weaponPanelTitle = document.getElementById('weapon-panel-title');
-const weaponPanelInsights = document.getElementById('weapon-panel-insights');
 const weaponPanelChart = document.getElementById('weapon-chart-container');
+const weaponPanelInsights = document.getElementById('weapon-insights');
 
 let selectedWeaponTracker = [];
 
@@ -34,42 +36,13 @@ document.querySelectorAll('.item').forEach(item => {
         console.log(selectedWeaponTracker);
 
         // If the chart exists, clear it
-        if (weaponPanelChart.innerHTML !== '') {
-            weaponPanelChart.innerHTML = '';
-        }
+        weaponPanelChart.innerHTML = '';
+
+        weaponPanelInsights.innerHTML = selectedWeaponTracker.map( weapon => `<li>${weapon}</li>`);
 
         // For all selected weapons, fetch data.
         for (const weapon of selectedWeaponTracker) {
-            let weaponData = await fetch(`/api/${rarity}/${weapon}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-
-                    data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-
-                    const values = data.map(item => item.value);
-                    const maxValue = Math.max(...values);
-                    const minValue = Math.min(...values);
-                    const datesAndValues = data.map(item => {
-                        let value = Number(item.value);
-                        let date = new Date(item.createdAt).getTime();
-                        return {'x': date, 'y': value};
-                    })
-                    
-                    return {
-                        name: weapon,
-                        data: datesAndValues,
-                        maxValue: maxValue,
-                        minValue: minValue,
-                    };
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });    
+            let weaponData = await getData(rarity, weapon);
 
             // Process the data and turn it into a chart.
             if (weaponData) {
@@ -101,6 +74,8 @@ document.querySelectorAll('.item').forEach(item => {
         main.classList.add('panel-open');
         weaponPanel.classList.remove('hidden');
         weaponPanel.setAttribute('aria-hidden', 'false');
+
+
     });
 });
 
@@ -109,6 +84,8 @@ document.querySelector('#weapon-panel-close').addEventListener('click', (event) 
     selectedWeaponTracker = [];
 
     document.getElementById('weapon-panel-close').blur();
+
+    weaponPanelChart.innerHTML = '';
     
     main.classList.remove('panel-open');
     weaponPanel.classList.add('hidden');

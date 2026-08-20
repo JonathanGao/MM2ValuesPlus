@@ -14,12 +14,12 @@
 </header>
 
 <form class="centered search-form" id="weapon-search-form">
-    <input type="text" name="name" placeholder="Search for a weapon" autocomplete="off" autofocus>
+    <input id="weapon-search-input" type="text" name="name" placeholder="Search for a weapon" autocomplete="off" autofocus>
 </form>
 
 <main class="container centered">
     {% for weapon in weapons if weapon.name not in excluded %}
-    <div class="item" style="--icon: url('{{ url_for('static', filename='weaponIcons/' ~ weapon.name ~ '.webp')}}')">
+    <div class="item" style='--icon: url("{{ url_for("static", filename="weaponIcons/" + weapon.name + ".webp")}}")'>
         <h2 class="weapon-name">{{ weapon.name }}</h2>
         <p>Value: {{ weapon.value }}</p>
         <p>Range: {{ weapon.minRange }} - {{ weapon.maxRange }}</p>
@@ -33,5 +33,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='javascript/' ~ scripts) }}"></script>
+<script type="module" src="{{ url_for('static', filename='javascript/rarity.js') }}"></script>
 {% endblock %}
