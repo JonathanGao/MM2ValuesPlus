@@ -5,16 +5,16 @@ import lxml
 import sqlite3
 
 from parseGodlies import parsePageForItems, findUpdateLog
-from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday
+from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday, WEAPONS_DB, UPDATE_LOG_DB
 
-weaponsDb = "weapons.db"
+weaponsDb = WEAPONS_DB
 godliesTable = "godlies"
 godliesUpdateLogTable = "GodliesUpdateLog"
 godliesTable = "godlies"
 chromasTable = "chromas"
 ancientsTable = "ancients"
 legendariesTable = "legendaries"
-updateLogDb = "updateLog.db"
+updateLogDb = UPDATE_LOG_DB
 godliesUpdateLogTable = "GodliesUpdateLog"
 chromasUpdateLogTable = "ChromasUpdateLog"
 legendariesUpdateLogTable = "LegendariesUpdateLog"

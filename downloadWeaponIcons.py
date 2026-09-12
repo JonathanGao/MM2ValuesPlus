@@ -15,9 +15,9 @@ import requests
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
-from sqlManager import WEAPONS_RARITIES
+from sqlManager import WEAPONS_RARITIES, WEAPONS_DB
 
-weaponsDb = "weapons.db"
+weaponsDb = WEAPONS_DB
 iconsDir = Path("static/weaponIcons")
 
 # Placeholder "N/A" image used when supremevalues has no real icon yet

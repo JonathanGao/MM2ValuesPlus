@@ -7,15 +7,15 @@ import pandas as pd
 
 from datetime import datetime, timezone, date, time
 from parseGodlies import parsePageForItems, findUpdateLog
-from sqlManager import createTableWeapons, createTableUpdateLog, getWeaponRange, insertWeapons, insertUpdateLog
+from sqlManager import createTableWeapons, createTableUpdateLog, getWeaponRange, insertWeapons, insertUpdateLog, DATABASES_DIR, UPDATE_LOG_DB
 from playwright.sync_api import sync_playwright
 
-godliesDb = "godlies.db"
+godliesDb = str(DATABASES_DIR / "godlies.db")
 godliesTable = "godlies"
 chromasTable = "chromas"
 ancientsTable = "ancients"
 legendariesTable = "legendaries"
-updateLogDb = "updateLog.db"
+updateLogDb = UPDATE_LOG_DB
 godliesUpdateLogTable = "GodliesUpdateLog"
 chromasUpdateLogTable = "ChromasUpdateLog"
 legendariesUpdateLogTable = "LegendariesUpdateLog"

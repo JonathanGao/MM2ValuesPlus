@@ -10,17 +10,17 @@ import pandas as pd
 from time import sleep
 from datetime import datetime, timezone
 from parseGodlies import parsePageForItems, findUpdateLog
-from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday, scrapedOnDate
+from sqlManager import createTableWeapons, getWeaponRange, insertWeapons, createTableUpdateLog, insertUpdateLog, scrapedToday, scrapedOnDate, WEAPONS_DB, UPDATE_LOG_DB
 
 # --- DB file names and table names ---
-weaponsDb = "weapons.db"
+weaponsDb = WEAPONS_DB
 godliesTable = "godlies"
 godliesUpdateLogTable = "GodliesUpdateLog"
 godliesTable = "godlies"
 chromasTable = "chromas"
 ancientsTable = "ancients"
 legendariesTable = "legendaries"
-updateLogDb = "updateLog.db"
+updateLogDb = UPDATE_LOG_DB
 godliesUpdateLogTable = "GodliesUpdateLog"
 chromasUpdateLogTable = "ChromasUpdateLog"
 legendariesUpdateLogTable = "LegendariesUpdateLog"

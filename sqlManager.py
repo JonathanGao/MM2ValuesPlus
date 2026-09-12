@@ -1,6 +1,7 @@
 import sqlite3
 
 from datetime import datetime, timezone, date
+from pathlib import Path
 from utils import formatValue
 
 # Define rarities as they are defined in the database to avoid mixups
@@ -11,7 +12,9 @@ WEAPONS_RARITIES = {
     'godlies': 'godlies',
 }
 
-WEAPONS_DB = "weapons.db"
+DATABASES_DIR = Path(__file__).resolve().parent / "databases"
+WEAPONS_DB = str(DATABASES_DIR / "weapons.db")
+UPDATE_LOG_DB = str(DATABASES_DIR / "updateLog.db")
 
 EXCLUDED_GODLIES = ['Black Luger', 'Mortal Blade', 'Batwing']
 

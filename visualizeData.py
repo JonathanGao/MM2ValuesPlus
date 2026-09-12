@@ -1,7 +1,9 @@
 import sqlite3
 import pandas as pd
 
-conn = sqlite3.connect("weapons.db")
+from sqlManager import WEAPONS_DB
+
+conn = sqlite3.connect(WEAPONS_DB)
 
 df = pd.read_sql("""
     SELECT name, value, minRange, maxRange, demand, stabilityScore, createdAt
