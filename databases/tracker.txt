@@ -1,0 +1,1 @@
+This is to ensure that the databases folder is tracked by git.
