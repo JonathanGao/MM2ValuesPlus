@@ -6,7 +6,9 @@ from utils import displayErrorMessage
 
 
 def getWeaponJson(rarity, weaponName, app):
-    if weaponName in EXCLUDED_GODLIES:
+    # Placeholder godlies (e.g. Batwing on the godlies page) are excluded only there;
+    # the real ancient Batwing must still be available via /api/ancients/Batwing.
+    if rarity == WEAPONS_RARITIES['godlies'] and weaponName in EXCLUDED_GODLIES:
         return displayErrorMessage(f"Weapon {weaponName} is excluded from the analysis.", app)
     connection = sqlite3.connect(WEAPONS_DB)
     df = pd.read_sql_query(f'SELECT * FROM {WEAPONS_RARITIES[rarity]} WHERE name = "{weaponName}";', connection)

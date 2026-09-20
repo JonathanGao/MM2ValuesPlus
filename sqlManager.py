@@ -98,6 +98,53 @@ def insertWeapons(cursor, weapons, weaponRange, weaponTable: str):
             weaponData["createdAt"],
         ))
 
+def getExistingWeaponTimestamps(cursor, tableName: str, source: str = "supremevalues") -> set[tuple[str, str]]:
+    """Return {(name, createdAt), ...} already stored for this source — used to skip history dupes."""
+    cursor.execute(f"""
+        SELECT name, createdAt FROM {tableName}
+        WHERE source = ?
+    """, (source,))
+    return {(row[0], row[1]) for row in cursor.fetchall() if row[0] and row[1]}
+
+def getExistingUpdateLogEntries(cursor, tableName: str, source: str = "supremevalues") -> set[tuple[str, str]]:
+    """Return {(log, createdAt), ...} already stored for this source — used to skip update-log dupes."""
+    cursor.execute(f"""
+        SELECT log, createdAt FROM {tableName}
+        WHERE source = ?
+    """, (source,))
+    return {(row[0], row[1]) for row in cursor.fetchall() if row[0] is not None and row[1]}
+
+def insertWeaponRecords(cursor, records: list[dict], weaponTable: str) -> int:
+    """
+    Insert a list of weapon row dicts (one DB row each).
+    Unlike insertWeapons, this supports multiple timestamps for the same weapon name
+    (e.g. Supreme Values per-item value history).
+    Each record must include name/source/gameRarity/tier/value/createdAt and may include
+    minRange/maxRange/stabilityScore/demand/rarity/flippability/chanceOfRising.
+    """
+    inserted = 0
+    for weaponData in records:
+        cursor.execute(f"""
+        INSERT INTO {weaponTable} (name, source, gameRarity, tier, value, minRange, maxRange, stabilityScore, demand, rarity, flippability, chanceOfRising, createdAt)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            weaponData["name"],
+            weaponData["source"],
+            weaponData["gameRarity"],
+            weaponData["tier"],
+            weaponData["value"],
+            weaponData.get("minRange"),
+            weaponData.get("maxRange"),
+            weaponData.get("stabilityScore"),
+            weaponData.get("demand"),
+            weaponData.get("rarity"),
+            weaponData.get("flippability"),
+            weaponData.get("chanceOfRising"),
+            weaponData["createdAt"],
+        ))
+        inserted += 1
+    return inserted
+
 def insertUpdateLog(cursor, updateLogs, updateLogTable: str):
     for updateLog in updateLogs:
         cursor.execute(f"""

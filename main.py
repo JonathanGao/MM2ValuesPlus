@@ -41,7 +41,7 @@ def main():
 
 
     if not scrapedToday(cursor, godliesTable):
-        godlies = parsePageForItems("https://supremevalues.com/mm2/godlies", gameRarity="godly", expectedTiers=["tier3", "tier2", "tier1", "tier0"])
+        godlies = parsePageForItems("https://supremevalues.com/mm2/godlies", gameRarity="godly", expectedTiers=["tier4", "tier3", "tier2", "tier1", "tier0"])
         godlyRange = getWeaponRange(godlies)
         insertWeapons(cursor, godlies, godlyRange, godliesTable)
         anyInserted = True

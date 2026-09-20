@@ -1,14 +1,15 @@
 #!/bin/bash
 
-# Change directory to the project directory
-cd /home/jonat/MM2ValuesPlus
+# Resolve project directory from this script's location (works for any user/path)
+projectDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$projectDir"
 
 # Create logs directory if it doesn't exist
-mkdir -p /home/jonat/MM2ValuesPlus/logs
+mkdir -p "$projectDir/logs"
 
 # Create logFile variable
-logFile="/home/jonat/MM2ValuesPlus/logs/cron.log"
-stampFile="/home/jonat/MM2ValuesPlus/logs/last_daily_run.date"
+logFile="$projectDir/logs/cron.log"
+stampFile="$projectDir/logs/last_daily_run.date"
 today="$(date -u '+%Y-%m-%d')"
 
 # Skip if a successful run already completed today (UTC, matches scrapedToday)
