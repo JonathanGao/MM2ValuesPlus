@@ -122,11 +122,9 @@ def parsePageForItems(link: str, gameRarity: str, expectedTiers: list[str], date
                     sys.exit(1)
                 itemFlippability = itemButton.get('data-flippability')
                 if not itemFlippability:
-                    print(f"Failed to get the item flippability for item column {itemName}")
                     itemFlippability = None
                 itemChanceOfRising = itemButton.get('data-cor')
                 if not itemChanceOfRising or itemChanceOfRising.strip().upper() in ("", "N/A"):
-                    print(f"Failed to get the item chance of rising for item column {itemName}")
                     itemChanceOfRising = None
             elif len(itemButton) != 1 and len(itemButton) > 0:
                 print(f"Multiple item buttons found for item column {itemName}")

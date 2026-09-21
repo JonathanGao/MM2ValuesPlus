@@ -6,7 +6,7 @@ const weaponPanel = document.getElementById('weapon-panel');
 const weaponPanelButton = document.getElementById('weapon-panel-button');
 const weaponPanelTitle = document.getElementById('weapon-panel-title');
 const weaponPanelChart = document.getElementById('weapon-chart-container');
-const weaponPanelInsights = document.getElementById('weapon-insights');
+const weaponPanelInsights = document.getElementById('weapon-insights-container');
 
 let selectedWeaponTracker = [];
 
@@ -38,8 +38,6 @@ document.querySelectorAll('.item').forEach(item => {
         // If the chart exists, clear it
         weaponPanelChart.innerHTML = '';
 
-        weaponPanelInsights.innerHTML = selectedWeaponTracker.map( weapon => `<li>${weapon}</li>`);
-
         // For all selected weapons, fetch data.
         for (const weapon of selectedWeaponTracker) {
             let weaponData = await getData(rarity, weapon);
@@ -49,6 +47,14 @@ document.querySelectorAll('.item').forEach(item => {
                 allWeaponData.push(weaponData);
             }
         };
+
+        // map only creates a new array, so join eliminates the commas that separate the elements in the array.
+        weaponPanelInsights.innerHTML = allWeaponData.map( weapon => `
+            <div class="weapon-insight-item">
+                <h1 class="weapon-insight-item-title">${weapon.name}</h1>
+                <h2 class="weapon-insight-item-content">Value: ${weapon.data[weapon.data.length - 1].y}</h2>
+            </div>
+        `).join('');
         
         const chart = new ApexCharts(weaponPanelChart, {
             chart: { type: 'line', height: 200 },
@@ -67,7 +73,6 @@ document.querySelectorAll('.item').forEach(item => {
         })
 
         chart.render();
-
 
         weaponPanelTitle.textContent = weaponName;
         

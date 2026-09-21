@@ -68,11 +68,33 @@ body {
     height: 22vh;
 }
 
-#weapon-insights {
-    padding: 1rem;
+#weapon-insights-container {
     height: 20vh;
     width: 100%;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.weapon-insight-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    place-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.weapon-insight-item-title, .weapon-insight-item-content {
+    align-items: center;
+    margin: 0;
+}
+
+.weapon-insight-item-title {
+
+}
+
+.weapon-insight-item-content {
+    text-align: center;
 }
 
 #weapon-chart {

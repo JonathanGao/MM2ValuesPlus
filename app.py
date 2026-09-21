@@ -6,6 +6,7 @@ from sqlManager import WEAPONS_RARITIES, EXCLUDED_GODLIES, WEAPONS_DB
 from utils import displayErrorMessage
 
 import analysis
+import predictor1
 
 
 app = Flask(__name__)
@@ -41,4 +42,5 @@ def rarityPage(rarity):
 
 @app.route("/api/<rarity>/<weaponName>")
 def api(rarity, weaponName):
-    return analysis.getWeaponJson(rarity, weaponName, app)
+    weaponJson = analysis.getWeaponJson(rarity, weaponName, app)
+    return weaponJson
