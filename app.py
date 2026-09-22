@@ -44,3 +44,8 @@ def rarityPage(rarity):
 def api(rarity, weaponName):
     weaponJson = analysis.getWeaponJson(rarity, weaponName, app)
     return weaponJson
+
+@app.route("/api/predictions/<rarity>/<weaponName>")
+def apiPredictions(rarity, weaponName):
+    predictionsJson = analysis.getPredictions(rarity, weaponName, app)
+    return predictionsJson

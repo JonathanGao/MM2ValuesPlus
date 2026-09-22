@@ -34,6 +34,11 @@ if [ $exitCode -eq 0 ]; then
 fi
 
 if [ $exitCode -eq 0 ]; then
+    python3 runPredictions.py >> "$logFile" 2>&1
+    exitCode=$?
+fi
+
+if [ $exitCode -eq 0 ]; then
     python3 downloadWeaponIcons.py >> "$logFile" 2>&1
     exitCode=$?
 fi

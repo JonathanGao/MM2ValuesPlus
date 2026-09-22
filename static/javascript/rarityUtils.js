@@ -30,3 +30,19 @@ export function getData(rarity, weapon) {
             console.error('Error:', error);
         })
 }
+
+export function getPredictions(rarity, weapon) {
+    return fetch(`/api/predictions/${rarity}/${weapon}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+}

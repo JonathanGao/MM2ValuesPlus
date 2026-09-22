@@ -89,12 +89,25 @@ body {
     margin: 0;
 }
 
-.weapon-insight-item-title {
-
-}
-
 .weapon-insight-item-content {
     text-align: center;
+}
+
+.weapon-insight-change {
+    font-weight: 600;
+    margin-left: 0.35rem;
+}
+
+.weapon-insight-change.change-up {
+    color: #16a34a;
+}
+
+.weapon-insight-change.change-down {
+    color: #dc2626;
+}
+
+.weapon-insight-change.change-flat {
+    color: #6b7280;
 }
 
 #weapon-chart {
