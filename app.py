@@ -2,8 +2,9 @@ import sqlite3
 import pandas as pd
 
 from flask import Flask, render_template, request
-from sqlManager import WEAPONS_RARITIES, EXCLUDED_GODLIES, WEAPONS_DB
+from sqlManager import WEAPONS_RARITIES, EXCLUDED_GODLIES, EXCLUDED_CHROMAS, WEAPONS_DB
 from utils import displayErrorMessage
+from predictors import PREDICTORS, DEFAULT_PREDICTOR, listPredictorIds, formatPredictorLabel
 
 import analysis
 import predictor1
@@ -14,11 +15,25 @@ app = Flask(__name__)
 rarities = [rarity for rarity in WEAPONS_RARITIES.keys()]
 weaponsDb = WEAPONS_DB
 excludedGodlies = EXCLUDED_GODLIES
+excludedChromas = EXCLUDED_CHROMAS
 
-# Make the global variable rarities accessible to all templates
+def getSelectedPredictor() -> str:
+    predictor = request.args.get("predictor")
+    if predictor in PREDICTORS:
+        return predictor
+    return DEFAULT_PREDICTOR
+
+# Make globals accessible to all templates
 @app.context_processor
-def inject_rarities():
-    return dict(rarities=rarities)
+def inject_globals():
+    selectedPredictor = getSelectedPredictor()
+    return dict(
+        rarities=rarities,
+        predictors=listPredictorIds(),
+        selectedPredictor=selectedPredictor,
+        formatPredictorLabel=formatPredictorLabel,
+        topMovers=analysis.getTopMovers(5, predictor=selectedPredictor),
+    )
 
 @app.route("/")
 def index():
@@ -35,6 +50,8 @@ def rarityPage(rarity):
     weapons = df.drop_duplicates(subset=["name"], keep="first").sort_values(by="value", ascending=False).to_dict(orient="records")
     if rarity == WEAPONS_RARITIES['godlies']:
         excluded = excludedGodlies
+    elif rarity == WEAPONS_RARITIES['chromas']:
+        excluded = excludedChromas
     else:
         excluded = []
 
@@ -47,5 +64,7 @@ def api(rarity, weaponName):
 
 @app.route("/api/predictions/<rarity>/<weaponName>")
 def apiPredictions(rarity, weaponName):
-    predictionsJson = analysis.getPredictions(rarity, weaponName, app)
+    predictionsJson = analysis.getPredictions(
+        rarity, weaponName, app, predictor=getSelectedPredictor()
+    )
     return predictionsJson

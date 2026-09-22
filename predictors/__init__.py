@@ -6,3 +6,14 @@ from predictor1 import predict_item
 PREDICTORS = {
     "weighted_linear_trend": predict_item,
 }
+
+DEFAULT_PREDICTOR = next(iter(PREDICTORS))
+
+def listPredictorIds():
+    return list(PREDICTORS.keys())
+
+def isValidPredictor(predictorId: str) -> bool:
+    return predictorId in PREDICTORS
+
+def formatPredictorLabel(predictorId: str) -> str:
+    return predictorId.replace("_", " ").title()

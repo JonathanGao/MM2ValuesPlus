@@ -8,7 +8,7 @@
 <main class="centered">
     {% for rarity in rarities %}
     <div>
-        <h2><a class="link" href="/{{ rarity }}">{{ rarity}}</a></h2>
+        <h2><a class="link" href="/{{ rarity }}?predictor={{ selectedPredictor }}">{{ rarity}}</a></h2>
     </div>
     {% endfor%}
 </main>

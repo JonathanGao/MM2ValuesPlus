@@ -1,3 +1,7 @@
+function getSelectedPredictor() {
+    return new URLSearchParams(window.location.search).get('predictor') || '';
+}
+
 export function getData(rarity, weapon) {
     return fetch(`/api/${rarity}/${weapon}`)
         .then(response => {
@@ -32,7 +36,10 @@ export function getData(rarity, weapon) {
 }
 
 export function getPredictions(rarity, weapon) {
-    return fetch(`/api/predictions/${rarity}/${weapon}`)
+    const predictor = encodeURIComponent(getSelectedPredictor());
+    const query = predictor ? `?predictor=${predictor}` : '';
+
+    return fetch(`/api/predictions/${rarity}/${weapon}${query}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

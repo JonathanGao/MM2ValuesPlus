@@ -12,6 +12,7 @@ from sqlManager import (
     WEAPONS_DB,
     WEAPONS_RARITIES,
     EXCLUDED_GODLIES,
+    EXCLUDED_CHROMAS,
     PREDICTIONS_TABLE,
     createTablePredictions,
     upsertPrediction,
@@ -75,6 +76,8 @@ def runForecasts(cursor, horizon: int = HORIZON) -> int:
         names = listWeaponNames(cursor, table)
         if table == WEAPONS_RARITIES["godlies"]:
             names = [n for n in names if n not in EXCLUDED_GODLIES]
+        elif table == WEAPONS_RARITIES["chromas"]:
+            names = [n for n in names if n not in EXCLUDED_CHROMAS]
 
         print(f"  Forecasting {len(names)} {rarityKey} across {len(PREDICTORS)} predictor(s)")
 

@@ -7,7 +7,7 @@ import csv
 import sqlite3
 from pathlib import Path
 
-from sqlManager import WEAPONS_DB, WEAPONS_RARITIES, EXCLUDED_GODLIES
+from sqlManager import WEAPONS_DB, WEAPONS_RARITIES, EXCLUDED_GODLIES, EXCLUDED_CHROMAS
 
 OUTPUT_CSV = Path(__file__).resolve().parent / "weapons_export.csv"
 
@@ -26,6 +26,8 @@ def exportWeaponsCsv(outputPath: Path = OUTPUT_CSV) -> int:
         for name, createdAt, value, demand in cursor.fetchall():
             # Skip placeholder godlies (e.g. Batwing on godlies); ancients Batwing is kept
             if tableName == WEAPONS_RARITIES["godlies"] and name in EXCLUDED_GODLIES:
+                continue
+            if tableName == WEAPONS_RARITIES["chromas"] and name in EXCLUDED_CHROMAS:
                 continue
             date = str(createdAt).split(" ")[0] if createdAt else ""
             rows.append({

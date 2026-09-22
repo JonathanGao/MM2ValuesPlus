@@ -18,6 +18,24 @@ UPDATE_LOG_DB = str(DATABASES_DIR / "updateLog.db")
 
 EXCLUDED_GODLIES = ['Black Luger', 'Mortal Blade', 'Batwing']
 
+# Chroma pets — low trading relevance for most users
+EXCLUDED_CHROMAS = [
+    'Chroma Fire Bat',
+    'Chroma Fire Bear',
+    'Chroma Fire Bunny',
+    'Chroma Fire Cat',
+    'Chroma Fire Dog',
+    'Chroma Fire Fox',
+    'Chroma Fire Pig',
+]
+
+def isExcludedItem(rarity: str, name: str) -> bool:
+    if rarity == WEAPONS_RARITIES['godlies'] and name in EXCLUDED_GODLIES:
+        return True
+    if rarity == WEAPONS_RARITIES['chromas'] and name in EXCLUDED_CHROMAS:
+        return True
+    return False
+
 def createTableWeapons(cursor, tableName):
     cursor.execute(f"""
     CREATE TABLE IF NOT EXISTS {tableName} (

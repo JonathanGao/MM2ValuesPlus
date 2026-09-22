@@ -17,7 +17,7 @@ body {
 
 #navbar {
     width: 100%;
-    background-color: #750013;
+    background-color: #282828;
     padding: 1rem;
     position: sticky;
     top: 0;
@@ -28,16 +28,117 @@ body {
     z-index: 100;
 }
 
+.predictor-select-wrap {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d1d5db;
+    font-size: 0.85rem;
+}
+
+.predictor-select-label {
+    white-space: nowrap;
+}
+
+#predictor-select {
+    background-color: #1f1f1f;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+    border-radius: 4px;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.85rem;
+    max-width: 16rem;
+}
+
+
 #sidebar {
     width: 15%;
     height: 90vh;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: stretch;
     position: sticky;
     top: 10vh;
     padding: 1rem;
+    overflow-y: auto;
+    gap: 1rem;
+}
+
+.movers-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.movers-section-title {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.movers-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.mover-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.mover-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    color: inherit;
+    min-width: 0;
+}
+
+.mover-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.2;
+}
+
+.mover-meta {
+    font-size: 0.7rem;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+.mover-change {
+    font-weight: 700;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.mover-change.change-up {
+    color: #16a34a;
+}
+
+.mover-change.change-down {
+    color: #dc2626;
+}
+
+.mover-change.change-flat {
+    color: #6b7280;
+}
+
+.movers-empty {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #6b7280;
 }
 
 #weapon-panel {
@@ -124,7 +225,7 @@ body {
 
 
 a.nav-link, .nav-header {
-    color: #8b959e;
+    color: #ffffff;
 }
 
 .header {

@@ -12,7 +12,7 @@
         <nav id="navbar">
 
 
-            <a href="/" class="nav-link nav-header">
+            <a href="/?predictor={{ selectedPredictor }}" class="nav-link nav-header">
                 <h1 class="rarity-header">
                     Home
                 </h1>
@@ -21,7 +21,7 @@
 
         {% for rarity in rarities %}
 
-                    <a href="/{{ rarity }}" class="nav-link">
+                    <a href="/{{ rarity }}?predictor={{ selectedPredictor }}" class="nav-link">
                         <h2 class="rarity-header">
                             {{ rarity }}
                         </h2>
@@ -29,11 +29,64 @@
 
         {% endfor %}
 
+            <form method="get" class="predictor-select-wrap">
+                <label class="predictor-select-label" for="predictor-select">Model</label>
+                <select id="predictor-select" name="predictor" aria-label="Prediction model" onchange="this.form.submit()">
+                    {% for predictor in predictors %}
+                    <option value="{{ predictor }}" {% if predictor == selectedPredictor %}selected{% endif %}>
+                        {{ formatPredictorLabel(predictor) }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </form>
+
         </nav>
 
         <div class="container">
             <aside id="sidebar">
                 <h1 class="header">Top Movers</h1>
+
+                <section class="movers-section">
+                    <h2 class="movers-section-title">Actual</h2>
+                    {% if topMovers.actual %}
+                    <ul class="movers-list">
+                        {% for mover in topMovers.actual %}
+                        <li class="mover-item">
+                            <a class="mover-link" href="/{{ mover.rarity }}?predictor={{ selectedPredictor }}">
+                                <span class="mover-name">{{ mover.name }}</span>
+                                <span class="mover-meta">{{ mover.rarity }} · {{ mover.previousValue }} → {{ mover.currentValue }}</span>
+                            </a>
+                            <span class="mover-change {% if mover.changePct > 0 %}change-up{% elif mover.changePct < 0 %}change-down{% else %}change-flat{% endif %}">
+                                {% if mover.changePct > 0 %}+{% endif %}{{ '%.2f'|format(mover.changePct) }}%
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="movers-empty">No day-over-day moves yet.</p>
+                    {% endif %}
+                </section>
+
+                <section class="movers-section">
+                    <h2 class="movers-section-title">Predicted</h2>
+                    {% if topMovers.predicted %}
+                    <ul class="movers-list">
+                        {% for mover in topMovers.predicted %}
+                        <li class="mover-item">
+                            <a class="mover-link" href="/{{ mover.rarity }}?predictor={{ selectedPredictor }}">
+                                <span class="mover-name">{{ mover.name }}</span>
+                                <span class="mover-meta">{{ mover.rarity }} · {{ mover.previousValue }} → {{ mover.currentValue }}</span>
+                            </a>
+                            <span class="mover-change {% if mover.changePct > 0 %}change-up{% elif mover.changePct < 0 %}change-down{% else %}change-flat{% endif %}">
+                                {% if mover.changePct > 0 %}+{% endif %}{{ '%.2f'|format(mover.changePct) }}%
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="movers-empty">No forecasts yet.</p>
+                    {% endif %}
+                </section>
             </aside>
 
             <div id="layout">
