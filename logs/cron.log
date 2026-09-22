@@ -18009,3 +18009,4 @@ createTablePredictions function success
 Found 266 distinct weapons in database
 All weapons already have icons — nothing to do
 ===== Run finished successfully: 2026-09-21 20:00:17 =====
+===== Run skipped (already ran successfully on 2026-09-22 UTC): 2026-09-21 22:00:00 =====
