@@ -72,12 +72,129 @@ body {
     gap: 0.5rem;
 }
 
+.movers-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
 .movers-section-title {
     margin: 0;
     font-size: 0.95rem;
     color: #4b5563;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+}
+
+#actual-calendar-button {
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+    border-radius: 0.35rem;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.45rem;
+    cursor: pointer;
+}
+
+#actual-calendar-button[aria-expanded="true"] {
+    background: #111827;
+    color: #ffffff;
+    border-color: #111827;
+}
+
+.movers-note {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #6b7280;
+    line-height: 1.3;
+}
+
+/*
+  The calendar is a popover, so the browser draws it in the top layer.
+  That layer sits above every normal element, including the navbar and the
+  weapon chart panel. Moving it out of the sidebar also stops the sidebar's
+  scroll area from cutting it off.
+  inset and margin are reset because the browser otherwise centers popovers.
+*/
+.actual-calendar {
+    position: fixed;
+    inset: unset;
+    margin: 0;
+    z-index: 2147483646;
+    width: 16rem;
+    height: auto;
+    overflow: visible;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 0.6rem;
+}
+
+.actual-calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+}
+
+.actual-calendar-nav button,
+.actual-calendar-latest {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: #111827;
+    font-size: 0.85rem;
+}
+
+.actual-calendar-month {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.actual-calendar-weekdays,
+.actual-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.15rem;
+    text-align: center;
+}
+
+.actual-calendar-weekdays {
+    font-size: 0.65rem;
+    color: #9ca3af;
+    margin-bottom: 0.2rem;
+}
+
+.actual-calendar-day {
+    border: 0;
+    background: transparent;
+    border-radius: 0.3rem;
+    font-size: 0.75rem;
+    height: 1.7rem;
+    color: #d1d5db;
+}
+
+.actual-calendar-day.has-scrape {
+    color: #111827;
+    cursor: pointer;
+}
+
+.actual-calendar-day.has-scrape:hover,
+.actual-calendar-day.selected {
+    background: #111827;
+    color: #ffffff;
+}
+
+.actual-calendar-latest {
+    display: block;
+    width: 100%;
+    margin-top: 0.45rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid #f3f4f6;
+    font-size: 0.75rem;
+    color: #4b5563;
 }
 
 .movers-list {

@@ -38,6 +38,8 @@ def getPredictions(rarity, weaponName, app, predictor=None):
         return displayErrorMessage(f"Predictions for {weaponName} do not exist.", app)
     return df.to_json(orient="records")
 
+_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 def _formatMover(rarity, name, previousValue, currentValue, changePct, **extra):
     pct = float(changePct) if changePct is not None else 0.0
     return {
@@ -49,29 +51,81 @@ def _formatMover(rarity, name, previousValue, currentValue, changePct, **extra):
         **extra,
     }
 
-def getActualTopMovers(limit: int = 5):
-    """Biggest day-over-day % moves from the two most recent daily scrapes."""
+def _shortDate(isoDate: str) -> str:
+    # Turn a stored day like "2026-09-26" into the short label shown next to
+    # each value in the sidebar, such as "Sep 26". Month names are fixed here
+    # so the label does not change with the computer's language setting.
+    year, month, day = isoDate.split("-")
+    return f"{_MONTHS[int(month) - 1]} {int(day)}"
+
+def _dailyDates(cursor, table: str) -> list[str]:
+    # Daily scrapes are the rows that include demand. Value-history backfill
+    # rows leave demand empty, so they are left out. Newest day comes first.
+    return [
+        row[0]
+        for row in cursor.execute(
+            f"""
+            SELECT DISTINCT date(createdAt)
+            FROM {table}
+            WHERE demand IS NOT NULL
+            ORDER BY 1 DESC
+            """
+        ).fetchall()
+    ]
+
+def listActualScrapeDates() -> list[str]:
+    # Every UTC day that has at least one daily scrape, in any rarity.
+    # The calendar uses this list to decide which days can be clicked.
+    # Oldest day is first.
     connection = sqlite3.connect(WEAPONS_DB)
     cursor = connection.cursor()
-    movers = []
+    dates = set()
+    for table in WEAPONS_RARITIES.values():
+        dates.update(_dailyDates(cursor, table))
+    connection.close()
+    return sorted(dates)
+
+def getActualTopMovers(limit: int = 5, onDate: str | None = None):
+    """
+    Build the Actual top-movers list.
+
+    Each weapon is compared across two daily scrapes. onDate is the later of
+    those two days, written as YYYY-MM-DD. Leave it empty to use the latest
+    scrape for each rarity and the scrape before that.
+
+    If at least one value changed, the list is the biggest percent moves.
+    If nothing changed, the list is the highest values, each shown as
+    old value -> same value and 0%, so the sidebar is not left blank.
+    """
+    connection = sqlite3.connect(WEAPONS_DB)
+    cursor = connection.cursor()
+    paired = []
+    sawScrape = False
+    sawPrevious = False
 
     for rarity, table in WEAPONS_RARITIES.items():
-        dates = [
-            row[0]
-            for row in cursor.execute(
-                f"""
-                SELECT DISTINCT date(createdAt)
-                FROM {table}
-                WHERE demand IS NOT NULL
-                ORDER BY 1 DESC
-                LIMIT 2
-                """
-            ).fetchall()
-        ]
-        if len(dates) < 2:
-            continue
+        dates = _dailyDates(cursor, table)
+        # A chosen day only counts for this rarity when that rarity was
+        # actually scraped then. The earlier day is the closest scrape
+        # before it, which may be more than one calendar day back.
+        if onDate:
+            if onDate not in dates:
+                continue
+            sawScrape = True
+            earlier = [day for day in dates if day < onDate]
+            if not earlier:
+                continue
+            sawPrevious = True
+            latestDate, previousDate = onDate, earlier[0]
+        else:
+            if len(dates) < 2:
+                if dates:
+                    sawScrape = True
+                continue
+            sawScrape = True
+            sawPrevious = True
+            latestDate, previousDate = dates[0], dates[1]
 
-        latestDate, previousDate = dates[0], dates[1]
         rows = cursor.execute(
             f"""
             SELECT a.name, b.value, a.value,
@@ -92,9 +146,9 @@ def getActualTopMovers(limit: int = 5):
         for name, previousValue, currentValue, changePct in rows:
             if isExcludedItem(rarity, name):
                 continue
-            if changePct is None or changePct == 0:
+            if changePct is None:
                 continue
-            movers.append(
+            paired.append(
                 _formatMover(
                     rarity,
                     name,
@@ -103,12 +157,35 @@ def getActualTopMovers(limit: int = 5):
                     changePct,
                     fromDate=previousDate,
                     toDate=latestDate,
+                    fromDateLabel=_shortDate(previousDate),
+                    toDateLabel=_shortDate(latestDate),
                 )
             )
 
     connection.close()
-    movers.sort(key=lambda m: abs(m["changePct"]), reverse=True)
-    return movers[:limit]
+
+    # Nothing could be compared. Tell the page whether the chosen day has
+    # no scrape at all, or a scrape with no older day to measure against.
+    if not paired:
+        if onDate and not sawScrape:
+            status = "no-scrape"
+        else:
+            status = "no-previous"
+        return {"movers": [], "flat": False, "status": status}
+
+    # Keep real moves when any value changed. Otherwise fill the list with
+    # the most expensive items so a flat day still shows 3000 -> 3000, 0%.
+    changed = [mover for mover in paired if mover["changePct"] != 0]
+    if changed:
+        changed.sort(key=lambda mover: abs(mover["changePct"]), reverse=True)
+        chosen = changed[:limit]
+        flat = False
+    else:
+        paired.sort(key=lambda mover: (-mover["currentValue"], mover["name"]))
+        chosen = paired[:limit]
+        flat = True
+
+    return {"movers": chosen, "flat": flat, "status": "ok"}
 
 def getPredictedTopMovers(limit: int = 5, predictor: str | None = None):
     """Biggest expected % moves from each weapon's latest forecast for one model."""

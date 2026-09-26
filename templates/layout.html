@@ -46,15 +46,19 @@
             <aside id="sidebar">
                 <h1 class="header">Top Movers</h1>
 
-                <section class="movers-section">
-                    <h2 class="movers-section-title">Actual</h2>
-                    {% if topMovers.actual %}
-                    <ul class="movers-list">
-                        {% for mover in topMovers.actual %}
+                <section class="movers-section" id="actual-movers-section" data-predictor="{{ selectedPredictor }}">
+                    <div class="movers-section-heading">
+                        <h2 class="movers-section-title">Actual</h2>
+                        <button type="button" id="actual-calendar-button" aria-expanded="false" aria-controls="actual-calendar">Calendar</button>
+                    </div>
+                    <p id="actual-movers-note" class="movers-note"{% if not topMovers.actual.flat %} hidden{% endif %}>No value changes. Showing the highest values.</p>
+                    <div id="actual-calendar" class="actual-calendar" popover="manual" role="dialog" aria-label="Choose a scrape day"></div>
+                    <ul id="actual-movers-list" class="movers-list">
+                        {% for mover in topMovers.actual.movers %}
                         <li class="mover-item">
                             <a class="mover-link" href="/{{ mover.rarity }}?predictor={{ selectedPredictor }}">
                                 <span class="mover-name">{{ mover.name }}</span>
-                                <span class="mover-meta">{{ mover.rarity }} · {{ mover.previousValue }} → {{ mover.currentValue }}</span>
+                                <span class="mover-meta">{{ mover.rarity }} · <time datetime="{{ mover.fromDate }}">{{ mover.fromDateLabel }}</time> {{ mover.previousValue }} → <time datetime="{{ mover.toDate }}">{{ mover.toDateLabel }}</time> {{ mover.currentValue }}</span>
                             </a>
                             <span class="mover-change {% if mover.changePct > 0 %}change-up{% elif mover.changePct < 0 %}change-down{% else %}change-flat{% endif %}">
                                 {% if mover.changePct > 0 %}+{% endif %}{{ '%.2f'|format(mover.changePct) }}%
@@ -62,9 +66,8 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    {% else %}
-                    <p class="movers-empty">No day-over-day moves yet.</p>
-                    {% endif %}
+                    <p id="actual-movers-empty" class="movers-empty"{% if topMovers.actual.movers %} hidden{% endif %}>No day-over-day scrapes to compare.</p>
+                    <script type="application/json" id="actual-scrape-dates">{{ actualScrapeDates | tojson }}</script>
                 </section>
 
                 <section class="movers-section">
@@ -109,6 +112,7 @@
 
         {% block scripts %}
         {% endblock %}
+        <script src="{{ url_for('static', filename='javascript/topMovers.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     </body>  
 </html>

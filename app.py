@@ -1,7 +1,9 @@
 import sqlite3
 import pandas as pd
 
-from flask import Flask, render_template, request
+from datetime import datetime
+
+from flask import Flask, jsonify, render_template, request
 from sqlManager import WEAPONS_RARITIES, EXCLUDED_GODLIES, EXCLUDED_CHROMAS, WEAPONS_DB
 from utils import displayErrorMessage
 from predictors import PREDICTORS, DEFAULT_PREDICTOR, listPredictorIds, formatPredictorLabel
@@ -33,6 +35,7 @@ def inject_globals():
         selectedPredictor=selectedPredictor,
         formatPredictorLabel=formatPredictorLabel,
         topMovers=analysis.getTopMovers(5, predictor=selectedPredictor),
+        actualScrapeDates=analysis.listActualScrapeDates(),
     )
 
 @app.route("/")
@@ -56,6 +59,19 @@ def rarityPage(rarity):
         excluded = []
 
     return render_template("rarity.html", rarity=rarity, weapons=weapons, excluded=excluded, scripts="rarity.js")
+
+@app.route("/api/top-movers/actual")
+def apiActualTopMovers():
+    # Optional ?date=YYYY-MM-DD picks which scrape day the Actual list uses.
+    # With no date, the list is the latest scrape compared with the one before it.
+    raw = request.args.get("date")
+    onDate = None
+    if raw:
+        try:
+            onDate = datetime.strptime(raw, "%Y-%m-%d").strftime("%Y-%m-%d")
+        except ValueError:
+            return jsonify({"error": "Use a YYYY-MM-DD date."}), 400
+    return jsonify(analysis.getActualTopMovers(5, onDate=onDate))
 
 @app.route("/api/<rarity>/<weaponName>")
 def api(rarity, weaponName):
