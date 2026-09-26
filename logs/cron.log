@@ -18010,3 +18010,190 @@ Found 266 distinct weapons in database
 All weapons already have icons — nothing to do
 ===== Run finished successfully: 2026-09-21 20:00:17 =====
 ===== Run skipped (already ran successfully on 2026-09-22 UTC): 2026-09-21 22:00:00 =====
+===== Run skipped (already ran successfully on 2026-09-22 UTC): 2026-09-22 00:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-22 UTC): 2026-09-22 16:00:01 =====
+===== Run started: 2026-09-23 03:00:01 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+Tier tiertierspecial does not exist
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+=== Predictions run starting (2026-09-23 07:00:17 UTC) ===
+  Predictors: weighted_linear_trend
+  Today=2026-09-23 targetDate=2026-09-24 horizon=1
+createTablePredictions function success
+  Scored 257 open prediction(s)
+  Forecasting 78 legendaries across 1 predictor(s)
+  Forecasting 13 ancients across 1 predictor(s)
+  Forecasting 41 chromas across 1 predictor(s)
+  Forecasting 125 godlies across 1 predictor(s)
+  Upserted 257 forecast(s)
+=== Predictions run finished ===
+Found 266 distinct weapons in database
+All weapons already have icons — nothing to do
+===== Run finished successfully: 2026-09-23 03:00:19 =====
+===== Run skipped (already ran successfully on 2026-09-23 UTC): 2026-09-23 04:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-23 UTC): 2026-09-23 17:00:01 =====
+===== Run started: 2026-09-23 22:53:42 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+Tier tiertierspecial does not exist
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+=== Predictions run starting (2026-09-24 02:54:02 UTC) ===
+  Predictors: weighted_linear_trend
+  Today=2026-09-24 targetDate=2026-09-25 horizon=1
+createTablePredictions function success
+  Scored 257 open prediction(s)
+  Forecasting 78 legendaries across 1 predictor(s)
+  Forecasting 13 ancients across 1 predictor(s)
+  Forecasting 41 chromas across 1 predictor(s)
+  Forecasting 125 godlies across 1 predictor(s)
+  Upserted 257 forecast(s)
+=== Predictions run finished ===
+Found 266 distinct weapons in database
+All weapons already have icons — nothing to do
+===== Run finished successfully: 2026-09-23 22:54:03 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-23 23:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 00:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 01:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 02:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 16:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 17:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 18:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-24 UTC): 2026-09-24 19:00:01 =====
+===== Run started: 2026-09-24 20:00:00 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+Tier tiertierspecial does not exist
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+=== Predictions run starting (2026-09-25 00:00:09 UTC) ===
+  Predictors: weighted_linear_trend
+  Today=2026-09-25 targetDate=2026-09-26 horizon=1
+createTablePredictions function success
+  Scored 257 open prediction(s)
+  Forecasting 78 legendaries across 1 predictor(s)
+  Forecasting 13 ancients across 1 predictor(s)
+  Forecasting 41 chromas across 1 predictor(s)
+  Forecasting 125 godlies across 1 predictor(s)
+  Upserted 257 forecast(s)
+=== Predictions run finished ===
+Found 266 distinct weapons in database
+All weapons already have icons — nothing to do
+===== Run finished successfully: 2026-09-24 20:00:10 =====
+===== Run skipped (already ran successfully on 2026-09-25 UTC): 2026-09-24 21:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-25 UTC): 2026-09-24 22:00:00 =====
+===== Run skipped (already ran successfully on 2026-09-25 UTC): 2026-09-25 01:00:00 =====
+===== Run started: 2026-09-26 00:00:06 =====
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTableUpdateLog function success
+createTable function success
+createTable function success
+createTable function success
+createTable function success
+insertUpdateLog function success
+insertUpdateLog function success
+Tier tiertierspecial does not exist
+insertUpdateLog function success
+insertUpdateLog function success
+Committed new data to databases
+Disconnected from databases
+Deduped godlies table
+Deduped chromas table
+Deduped legendaries table
+Deduped ancients table
+Deduped GodliesUpdateLog table
+Deduped ChromasUpdateLog table
+Deduped LegendariesUpdateLog table
+Deduped AncientsUpdateLog table
+Committed deduplicated data to databases
+Disconnected from databases
+=== Predictions run starting (2026-09-26 04:00:15 UTC) ===
+  Predictors: weighted_linear_trend
+  Today=2026-09-26 targetDate=2026-09-27 horizon=1
+createTablePredictions function success
+  Scored 257 open prediction(s)
+  Forecasting 78 legendaries across 1 predictor(s)
+  Forecasting 13 ancients across 1 predictor(s)
+  Forecasting 41 chromas across 1 predictor(s)
+  Forecasting 125 godlies across 1 predictor(s)
+  Upserted 257 forecast(s)
+=== Predictions run finished ===
+Found 266 distinct weapons in database
+All weapons already have icons — nothing to do
+===== Run finished successfully: 2026-09-26 00:00:15 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 01:00:07 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 02:00:07 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 03:00:08 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 04:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 05:00:02 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 06:00:02 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 07:00:00 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 12:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 13:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 14:00:01 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 14:36:14 =====
+===== Run skipped (already ran successfully on 2026-09-26 UTC): 2026-09-26 15:00:01 =====
