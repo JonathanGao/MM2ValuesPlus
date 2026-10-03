@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
 from sqlManager import WEAPONS_RARITIES, WEAPONS_DB
+from utils import launchBrowserPage
 
 weaponsDb = WEAPONS_DB
 iconsDir = Path("static/weaponIcons")
@@ -180,8 +181,7 @@ def main():
 
     scrapedIcons: dict[str, str] = {}
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        browser, page = launchBrowserPage(p)
         for rarity, pageUrl in RARITY_PAGES.items():
             print(f"Scraping icons from {pageUrl}")
             try:

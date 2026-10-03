@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from playwright.sync_api import sync_playwright
 
 from parseGodlies import parsePageForItems, findUpdateLog
+from utils import launchBrowserPage
 from sqlManager import (
     createTableWeapons,
     getWeaponRange,
@@ -319,8 +320,7 @@ def scrapeAndInsertLiveValueHistories(
 
     totalNew = 0
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        browser, page = launchBrowserPage(p)
 
         try:
             _loadListPage(page, listUrl)

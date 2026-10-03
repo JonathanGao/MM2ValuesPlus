@@ -5,17 +5,46 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 from playwright.sync_api import sync_playwright
 
+# Playwright's default headless agent identifies itself as HeadlessChrome.
+# Cloudflare answers that with a 403 challenge page instead of the real site.
+BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/131.0.0.0 Safari/537.36"
+)
+
+def launchBrowserPage(playwright):
+    """Open a headless page that Cloudflare will serve instead of blocking."""
+    browser = playwright.chromium.launch(headless=True)
+    context = browser.new_context(
+        user_agent=BROWSER_USER_AGENT,
+        viewport={"width": 1366, "height": 768},
+        locale="en-US",
+    )
+    return browser, context.new_page()
+
 def fetchPage(link: str) -> str:
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        response = page.goto(link, wait_until="domcontentloaded", timeout=90_000)
-        html = page.content()
-        browser.close()
-        if response and response.status != 200:
-            print(f"Failed to get the response with status code {response.status}")
-            sys.exit(1)
-        return html
+        browser, page = launchBrowserPage(p)
+        try:
+            response = page.goto(link, wait_until="domcontentloaded", timeout=90_000)
+            # The first response can be the Cloudflare check. Wait until that
+            # title is gone before treating the status as a failure.
+            if response and response.status != 200:
+                try:
+                    page.wait_for_function(
+                        """() => {
+                            const title = document.title || '';
+                            return !title.includes('Cloudflare') && !title.includes('Just a moment');
+                        }""",
+                        timeout=20_000,
+                    )
+                except Exception:
+                    print(f"Failed to get the response with status code {response.status}")
+                    sys.exit(1)
+            return page.content()
+        finally:
+            browser.close()
 
 def getCurrentTimestamp():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
