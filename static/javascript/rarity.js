@@ -1,4 +1,4 @@
-import { getData, getPredictions } from './rarityUtils.js';
+import { getData, getLatestPrediction } from './rarityUtils.js';
 
 const main = document.getElementById('main');
 const weaponPanel = document.getElementById('weapon-panel');
@@ -32,6 +32,31 @@ function formatChangePct(changePct) {
     return `${sign}${value.toFixed(2)}%`;
 }
 
+function escapeHtml(value) {
+    return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;');
+}
+
+// Every model in the page dropdown, in the same order the server registered them.
+function listPredictors() {
+    const select = document.getElementById('predictor-select');
+    if (!select) return [];
+    return Array.from(select.options).map(option => ({
+        id: option.value,
+        label: option.textContent.trim(),
+    }));
+}
+
+function predictionCell(prediction) {
+    if (!prediction || prediction.predictedValue == null) {
+        return '<td class="weapon-insight-missing">—</td>';
+    }
+    return `<td>${escapeHtml(prediction.predictedValue)}<span class="weapon-insight-change ${changeClass(prediction.changePct)}">(${formatChangePct(prediction.changePct)})</span></td>`;
+}
+
 document.querySelector('#weapon-search-form').addEventListener('input', (event) => {
     const searchValue = event.target.value.toLowerCase();
     const weaponNames = document.querySelectorAll('.weapon-name');
@@ -52,11 +77,11 @@ document.querySelectorAll('.item').forEach(item => {
 
         const allWeaponData = [];
         const allWeaponPredictions = [];
+        const predictors = listPredictors();
 
         if (!selectedWeaponTracker.includes(weaponName)) {
             selectedWeaponTracker.push(weaponName);
         };
-        console.log(selectedWeaponTracker);
 
         // If the chart exists, clear it
         weaponPanelChart.innerHTML = '';
@@ -64,40 +89,46 @@ document.querySelectorAll('.item').forEach(item => {
         // For all selected weapons, fetch data.
         for (const weapon of selectedWeaponTracker) {
             let weaponData = await getData(rarity, weapon);
-            let weaponPredictions = await getPredictions(rarity, weapon)
-                .then(data => {
-                    if (!data || !Array.isArray(data) || data.length === 0) return null;
-                    data.sort((a, b) => new Date(a.predictedAt) - new Date(b.predictedAt));
-                    const latest = data[data.length - 1];
-                    return {
-                        name: latest.item,
-                        predictedValue: latest.predictedValue,
-                        changePct: latest.changePct,
-                        color: colorForWeapon(weapon),
-                    };
-                })
+            // One latest forecast per registered model, so the table can show them side by side.
+            const forecasts = [];
+            for (const predictor of predictors) {
+                forecasts.push(await getLatestPrediction(rarity, weapon, predictor.id));
+            }
 
-            // Process the data and turn it into a chart.
             if (weaponData) {
                 allWeaponData.push(weaponData);
             }
-            if (weaponPredictions) {
-                allWeaponPredictions.push(weaponPredictions);
+            if (forecasts.some(forecast => forecast)) {
+                allWeaponPredictions.push({
+                    name: weapon,
+                    color: colorForWeapon(weapon),
+                    forecasts,
+                });
             }
         };
 
-        // map only creates a new array, so join eliminates the commas that separate the elements in the array.
-        weaponPanelInsights.innerHTML = allWeaponPredictions.map(weapon => `
-            <div class="weapon-insight-item">
-                <h1 class="weapon-insight-item-title" style="color: ${weapon.color}">${weapon.name}</h1>
-                <h2 class="weapon-insight-item-content">
-                    Predicted Value: ${weapon.predictedValue}
-                    <span class="weapon-insight-change ${changeClass(weapon.changePct)}">
-                        (${formatChangePct(weapon.changePct)})
-                    </span>
-                </h2>
-            </div>
+        const headerCells = predictors
+            .map(predictor => `<th scope="col">${escapeHtml(predictor.label)}</th>`)
+            .join('');
+        const bodyRows = allWeaponPredictions.map(weapon => `
+            <tr>
+                <th class="weapon-insight-item-title" scope="row" style="color: ${weapon.color}">${escapeHtml(weapon.name)}</th>
+                ${weapon.forecasts.map(predictionCell).join('')}
+            </tr>
         `).join('');
+        // One table for every selected weapon. Model names are written once,
+        // as the header of each value column, and each weapon is a row under them.
+        weaponPanelInsights.innerHTML = allWeaponPredictions.length ? `
+            <table class="weapon-insight-table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        ${headerCells}
+                    </tr>
+                </thead>
+                <tbody>${bodyRows}</tbody>
+            </table>
+        ` : '';
 
         const chartColors = allWeaponData.map(weapon => colorForWeapon(weapon.name));
 

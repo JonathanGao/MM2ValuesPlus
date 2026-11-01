@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from playwright.sync_api import sync_playwright
 
 from parseGodlies import parsePageForItems, findUpdateLog
-from utils import launchBrowserPage
+from utils import BROWSER_USER_AGENT, launchBrowserPage
 from sqlManager import (
     createTableWeapons,
     getWeaponRange,
@@ -232,16 +232,17 @@ def parseAndInsertPage(directory: str, gameRarity: str, expectedTiers: list[str]
 
 
 def _loadListPage(page, listUrl: str) -> str:
-    """Load a rarity list page until item columns (and _svPopup) are ready."""
+    """Load a rarity list page until the weapon cards are on the page.
+
+    Each card button carries data-name (the display name) and data-image
+    (the slug used in ?item= URLs). The list page's _svPopup object starts
+    empty and is no longer the weapon catalog.
+    """
     lastError = None
     for attempt in range(1, LIST_PAGE_RETRIES + 1):
         try:
             page.goto(listUrl, wait_until="domcontentloaded", timeout=90_000)
-            page.wait_for_selector(".itemcolumn", timeout=60_000)
-            page.wait_for_function(
-                "() => !!(window._svPopup && Object.keys(window._svPopup).length)",
-                timeout=30_000,
-            )
+            page.wait_for_selector(".itemcolumn button[data-name][data-image]", timeout=60_000)
             return page.content()
         except Exception as e:
             lastError = e
@@ -255,7 +256,21 @@ def _itemSlugFromImageKey(imageKey: str) -> str:
     return (imageKey or "").rsplit("/", 1)[-1]
 
 
-def _fetchItemHistory(page, directory: str, itemName: str, imageKey: str) -> list[dict] | None:
+def _openItemPage(browser):
+    """A new context for one item page.
+
+    Opening a second page in the same context gets a Cloudflare challenge.
+    A fresh context loads that weapon's _svPopup, including its history.
+    """
+    context = browser.new_context(
+        user_agent=BROWSER_USER_AGENT,
+        viewport={"width": 1366, "height": 768},
+        locale="en-US",
+    )
+    return context, context.new_page()
+
+
+def _fetchItemHistory(browser, directory: str, itemName: str, imageKey: str) -> list[dict] | None:
     """
     Open the per-item Supreme Values page and return that weapon's value history
     points: [{"v": <number>, "t": "<YYYY-MM-DD HH:MM:SS>", "c": optional bool}, ...]
@@ -269,16 +284,23 @@ def _fetchItemHistory(page, directory: str, itemName: str, imageKey: str) -> lis
     itemUrl = f"https://supremevalues.com/mm2/{directory}?item={slug}"
     lastError = None
     for attempt in range(1, LIST_PAGE_RETRIES + 1):
+        context, page = _openItemPage(browser)
         try:
-            page.goto(itemUrl, wait_until="domcontentloaded", timeout=90_000)
-            # Wait until this item's history field is present (may be an empty array)
+            response = page.goto(itemUrl, wait_until="domcontentloaded", timeout=90_000)
+            title = page.title() or ""
+            # A challenge page has no weapon popup. Retry in another context
+            # instead of waiting for history that will not appear.
+            blocked = (response is None or response.status != 200) or ("Just a moment" in title) or ("Cloudflare" in title)
+            if blocked:
+                status = response.status if response is not None else "none"
+                raise RuntimeError(f"Item page blocked (status {status})")
             page.wait_for_function(
                 """(name) => {
                     const d = window._svPopup && window._svPopup[name];
                     return !!(d && Array.isArray(d.history));
                 }""",
                 arg=itemName,
-                timeout=60_000,
+                timeout=20_000,
             )
             history = page.evaluate(
                 """(name) => {
@@ -294,6 +316,8 @@ def _fetchItemHistory(page, directory: str, itemName: str, imageKey: str) -> lis
             lastError = e
             print(f"  History attempt {attempt}/{LIST_PAGE_RETRIES} failed for {itemName}: {e}")
             sleep(2)
+        finally:
+            context.close()
     print(f"  Giving up on history for {itemName}: {lastError}")
     return None
 
@@ -310,8 +334,10 @@ def scrapeAndInsertLiveValueHistories(
     already in weapons.db. Missing attrs (demand, range, etc.) are left NULL;
     minRange/maxRange are set equal to the historical value.
 
-    Weapon list comes from window._svPopup (all items on the page), not only the
-    tiers in expectedTiers — so newly added tiers are still scraped.
+    The weapon list comes from the cards on the rarity page. Each button's
+    data-name is the display name and data-image is the ?item= slug. History
+    for that weapon is read from _svPopup after its own item page loads.
+    A card whose tier section is missing still uses the first expected tier.
     """
     print(f"=== Starting live value-history scrape for {directory} ===")
     listUrl = f"https://supremevalues.com/mm2/{directory}"
@@ -329,33 +355,29 @@ def scrapeAndInsertLiveValueHistories(
             browser.close()
             return
 
-        # Authoritative item list + image slugs from _svPopup; tiers from DOM grids
+        # Names and slugs are on the cards. _svPopup on this page is empty until
+        # a single weapon's item page is opened.
         catalog = page.evaluate(
             """() => {
-                const tiers = {};
+                const items = {};
                 document.querySelectorAll('.itemcolumn').forEach(col => {
                     const btn = col.querySelector('button[data-name]');
                     const head = col.querySelector('.itemhead');
                     const name = (btn && btn.dataset.name) || (head && head.textContent.trim());
+                    if (!name) return;
                     const tierSection = col.closest('section.grid');
-                    if (name && tierSection && tierSection.id) {
-                        tiers[name] = tierSection.id;
-                    }
-                });
-                const items = {};
-                for (const [name, d] of Object.entries(window._svPopup || {})) {
                     items[name] = {
-                        imageKey: (d && d.imageKey) ? d.imageKey : '',
-                        tier: tiers[name] || null,
+                        imageKey: (btn && btn.dataset.image) || '',
+                        tier: (tierSection && tierSection.id) || null,
                     };
-                }
+                });
                 return items;
             }"""
         )
 
         names = sorted(catalog.keys())
         missingTier = [n for n in names if not catalog[n].get("tier")]
-        print(f"  Found {len(names)} weapons on {directory} via _svPopup")
+        print(f"  Found {len(names)} weapons on {directory} from item cards")
         if missingTier:
             print(f"  Warning: {len(missingTier)} popup items have no DOM tier (using fallback '{expectedTiers[0] if expectedTiers else 'unknown'}'): {', '.join(missingTier)}")
 
@@ -367,7 +389,7 @@ def scrapeAndInsertLiveValueHistories(
             tier = meta.get("tier") or fallbackTier
             print(f"  [{i}/{len(names)}] {name}")
 
-            history = _fetchItemHistory(page, directory, name, imageKey)
+            history = _fetchItemHistory(browser, directory, name, imageKey)
             sleep(ITEM_HISTORY_SLEEP_SEC)
             if not history:
                 continue

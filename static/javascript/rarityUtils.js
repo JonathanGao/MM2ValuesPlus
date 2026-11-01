@@ -35,8 +35,11 @@ export function getData(rarity, weapon) {
         })
 }
 
-export function getPredictions(rarity, weapon) {
-    const predictor = encodeURIComponent(getSelectedPredictor());
+export function getPredictions(rarity, weapon, predictorId) {
+    // An explicit id loads that model. With no id, the page's selected model is used.
+    const predictor = encodeURIComponent(
+        predictorId == null ? getSelectedPredictor() : predictorId
+    );
     const query = predictor ? `?predictor=${predictor}` : '';
 
     return fetch(`/api/predictions/${rarity}/${weapon}${query}`)
@@ -44,12 +47,30 @@ export function getPredictions(rarity, weapon) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json();
+            return response.text();
         })
-        .then(data => {
-            return data;
+        .then(text => {
+            // The forecast route sends a JSON list as plain text. A weapon with no
+            // forecast for this model comes back as an HTML error page instead.
+            try {
+                const data = JSON.parse(text);
+                return Array.isArray(data) ? data : null;
+            } catch (error) {
+                return null;
+            }
         })
         .catch(error => {
             console.error('Error:', error);
+            return null;
         })
+}
+
+// Newest forecast for one model, or null when that model has not forecast this weapon.
+export function getLatestPrediction(rarity, weapon, predictorId) {
+    return getPredictions(rarity, weapon, predictorId)
+        .then(data => {
+            if (!data || !Array.isArray(data) || data.length === 0) return null;
+            data.sort((a, b) => new Date(a.predictedAt) - new Date(b.predictedAt));
+            return data[data.length - 1];
+        });
 }

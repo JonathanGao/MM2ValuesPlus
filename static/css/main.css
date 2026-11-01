@@ -294,21 +294,35 @@ body {
     flex-direction: column;
 }
 
-.weapon-insight-item {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    place-items: center;
-    padding: 0;
-    margin: 0;
+.weapon-insight-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
 }
 
-.weapon-insight-item-title, .weapon-insight-item-content {
-    align-items: center;
-    margin: 0;
-}
-
-.weapon-insight-item-content {
+.weapon-insight-table th,
+.weapon-insight-table td {
+    padding: 0.15rem 0.4rem;
     text-align: center;
+    font-weight: 500;
+}
+
+.weapon-insight-table thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.weapon-insight-item-title {
+    margin: 0;
+    font-size: 1.15rem;
+    text-align: left;
+}
+
+.weapon-insight-missing {
+    color: #6b7280;
 }
 
 .weapon-insight-change {

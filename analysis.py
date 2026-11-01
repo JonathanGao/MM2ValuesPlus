@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 from sqlManager import WEAPONS_RARITIES, WEAPONS_DB, isExcludedItem
 from utils import displayErrorMessage
-from predictors import DEFAULT_PREDICTOR
+from predictors import DEFAULT_PREDICTOR, listPredictorIds, formatPredictorLabel
 
 def checkExcluded(weaponName, rarity, app):
     if isExcludedItem(rarity, weaponName):
@@ -232,6 +232,149 @@ def getPredictedTopMovers(limit: int = 5, predictor: str | None = None):
         if len(movers) >= limit:
             break
     return movers
+
+def _scoreMetrics(rows: list[dict]) -> dict | None:
+    # WAPE weights each miss by the weapon's value, so a chroma miss counts more
+    # than a legendary miss. MAE is the plain average miss. Direction treats a
+    # missing flag as wrong, the same way the comparison script does.
+    if not rows:
+        return None
+    error_sum = sum(float(row["errorAbs"]) for row in rows)
+    actual_sum = sum(abs(float(row["actualValue"])) for row in rows)
+    direction_hits = sum(int(row["directionCorrect"] or 0) for row in rows)
+    count = len(rows)
+    return {
+        "count": count,
+        "mae": round(error_sum / count, 2),
+        "wape": round(100.0 * error_sum / max(actual_sum, 1.0), 2),
+        "directionPct": round(100.0 * direction_hits / count, 1),
+    }
+
+
+def _groupMetrics(rows: list[dict], key_names: tuple[str, ...]) -> list[dict]:
+    grouped: dict[tuple, list[dict]] = {}
+    for row in rows:
+        key = tuple(row[name] for name in key_names)
+        grouped.setdefault(key, []).append(row)
+    metrics = []
+    for key, group in grouped.items():
+        scored = _scoreMetrics(group)
+        if scored is None:
+            continue
+        item = {name: value for name, value in zip(key_names, key)}
+        item.update(scored)
+        metrics.append(item)
+    return metrics
+
+
+def getModelAccuracy(horizon: int = 1) -> dict:
+    """Scored-forecast accuracy for every registered model.
+
+    `daily` is each model's own history. `matched` keeps only weapon-days
+    where every model was scored against the same actual value, so a model
+    with a longer history cannot win the comparison by itself.
+    """
+    horizon = max(1, int(horizon))
+    predictor_ids = listPredictorIds()
+    empty = {
+        "horizon": horizon,
+        "predictors": [
+            {"id": predictor_id, "label": formatPredictorLabel(predictor_id)}
+            for predictor_id in predictor_ids
+        ],
+        "daily": [],
+        "matched": {
+            "count": 0,
+            "firstDate": None,
+            "lastDate": None,
+            "overall": [],
+            "daily": [],
+            "byRarity": [],
+        },
+    }
+    if not predictor_ids:
+        return empty
+
+    placeholders = ",".join("?" * len(predictor_ids))
+    connection = sqlite3.connect(WEAPONS_DB)
+    try:
+        scored_rows = connection.execute(
+            f"""
+            SELECT predictor, targetDate, rarity, errorAbs, actualValue, directionCorrect
+            FROM predictions
+            WHERE horizon = ?
+              AND actualValue IS NOT NULL
+              AND errorAbs IS NOT NULL
+              AND predictor IN ({placeholders})
+            """,
+            (horizon, *predictor_ids),
+        ).fetchall()
+        # A shared forecast is one weapon and target day that every model scored,
+        # and every model was checked against the same scraped value.
+        matched_rows = connection.execute(
+            f"""
+            WITH shared AS (
+                SELECT rarity, item, targetDate, horizon, actualValue
+                FROM predictions
+                WHERE horizon = ?
+                  AND actualValue IS NOT NULL
+                  AND errorAbs IS NOT NULL
+                  AND predictor IN ({placeholders})
+                GROUP BY rarity, item, targetDate, horizon, actualValue
+                HAVING COUNT(DISTINCT predictor) = ?
+            )
+            SELECT p.predictor, p.targetDate, p.rarity, p.errorAbs, p.actualValue, p.directionCorrect
+            FROM predictions AS p
+            JOIN shared
+              ON p.rarity = shared.rarity
+             AND p.item = shared.item
+             AND p.targetDate = shared.targetDate
+             AND p.horizon = shared.horizon
+             AND p.actualValue = shared.actualValue
+            WHERE p.predictor IN ({placeholders})
+              AND p.errorAbs IS NOT NULL
+            """,
+            (horizon, *predictor_ids, len(predictor_ids), *predictor_ids),
+        ).fetchall()
+    finally:
+        connection.close()
+
+    columns = ["predictor", "targetDate", "rarity", "errorAbs", "actualValue", "directionCorrect"]
+    scored = [dict(zip(columns, row)) for row in scored_rows]
+    matched = [dict(zip(columns, row)) for row in matched_rows]
+
+    daily = _groupMetrics(scored, ("predictor", "targetDate"))
+    daily.sort(key=lambda item: (item["targetDate"], predictor_ids.index(item["predictor"])))
+
+    overall = _groupMetrics(matched, ("predictor",))
+    overall.sort(key=lambda item: predictor_ids.index(item["predictor"]))
+    matched_daily = _groupMetrics(matched, ("predictor", "targetDate"))
+    matched_daily.sort(key=lambda item: (item["targetDate"], predictor_ids.index(item["predictor"])))
+    rarity_order = list(WEAPONS_RARITIES.keys())
+    by_rarity = _groupMetrics(matched, ("predictor", "rarity"))
+    by_rarity.sort(
+        key=lambda item: (
+            rarity_order.index(item["rarity"]) if item["rarity"] in rarity_order else len(rarity_order),
+            predictor_ids.index(item["predictor"]),
+        )
+    )
+
+    shared_dates = sorted({row["targetDate"] for row in matched})
+    per_model = max(len(predictor_ids), 1)
+    return {
+        "horizon": horizon,
+        "predictors": empty["predictors"],
+        "daily": daily,
+        "matched": {
+            "count": len(matched) // per_model,
+            "firstDate": shared_dates[0] if shared_dates else None,
+            "lastDate": shared_dates[-1] if shared_dates else None,
+            "overall": overall,
+            "daily": matched_daily,
+            "byRarity": by_rarity,
+        },
+    }
+
 
 def getTopMovers(limit: int = 5, predictor: str | None = None):
     predictor = predictor or DEFAULT_PREDICTOR

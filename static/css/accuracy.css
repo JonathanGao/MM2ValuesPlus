@@ -1,0 +1,122 @@
+.accuracy-page,
+#accuracy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    color: #1f2937;
+}
+
+.accuracy-page h1,
+.accuracy-page h2 {
+    margin: 0;
+}
+
+.accuracy-note {
+    margin: 0.35rem 0 0;
+    max-width: 46rem;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.accuracy-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 0;
+}
+
+.accuracy-key,
+.accuracy-card,
+.accuracy-chart,
+.accuracy-table-wrap,
+.accuracy-empty {
+    background: #ffffff;
+    padding: 1rem;
+}
+
+.accuracy-key {
+    margin: 1.25rem 0;
+    border-radius: 8px;
+}
+
+#accuracy-content {
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accuracy-key dl {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0 0;
+}
+
+.accuracy-key dt {
+    font-weight: 700;
+}
+
+.accuracy-key dd {
+    margin: 0.25rem 0 0;
+    max-width: 46rem;
+}
+
+.accuracy-key .accuracy-note {
+    margin-top: 0.75rem;
+}
+
+.accuracy-card h2,
+.accuracy-chart h2,
+.accuracy-table-wrap h2 {
+    font-size: 1.05rem;
+}
+
+.accuracy-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.accuracy-metric span {
+    display: block;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.accuracy-metric strong {
+    font-size: 1.25rem;
+}
+
+.accuracy-chart,
+.accuracy-table-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.accuracy-table-wrap {
+    overflow-x: auto;
+}
+
+.accuracy-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.accuracy-table th,
+.accuracy-table td {
+    padding: 0.4rem 0.6rem;
+    text-align: right;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+.accuracy-table th:first-child,
+.accuracy-table td:first-child {
+    text-align: left;
+}
+
+.accuracy-table thead th {
+    font-size: 0.8rem;
+}

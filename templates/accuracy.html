@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/accuracy.css') }}">
+{% endblock %}
+
+{% block body %}
+<section class="accuracy-page">
+    <header>
+        <h1>Accuracy</h1>
+        <p id="accuracy-note" class="accuracy-note">Loading scored forecasts.</p>
+    </header>
+
+    <section class="accuracy-key" aria-label="Measurement key">
+        <h2>Key</h2>
+        <dl>
+            <div>
+                <dt>Mean absolute error (MAE)</dt>
+                <dd>MAE is the average miss in value. The absolute value of the difference between predicted and real point value is recorded for each weapon, and all those values are summed. This is divided by how many weapons there were in total. Lower values mean the guesses were closer.</dd>
+            </div>
+            <div>
+                <dt>Weighted absolute percentage error (WAPE)</dt>
+                <dd>WAPE is one percentage that represents the average miss in value. Similarly to MAE, the same absolute value differences is recorded for each weapon, except this time it's divided by all the real values added together. Expensive misses will have more influence over the overall percentage. Lower values mean the guesses were closer. </dd>
+            </div>
+            <div>
+                <dt>Direction</dt>
+                <dd>Each guess also says the weapon will rise, fall, or stay about the same. Direction is the percent of weapons where that call matched what happened. Up or down by more than 2% is a rise or a fall. A change within 2% counts as staying the same. Higher means more of those calls were right.</dd>
+            </div>
+        </dl>
+        <p class="accuracy-note">The two boxes and the rarity table compare the models only where both guessed the same weapon on the same day, after that day's real value is known. The charts and the by-day table show each model on its own. A blank or a dash means that model has no checked guess for that day.</p>
+    </section>
+
+    <p id="accuracy-empty" class="accuracy-empty hidden"></p>
+
+    <div id="accuracy-content" class="hidden">
+        <div id="accuracy-cards" class="accuracy-cards"></div>
+
+        <section class="accuracy-chart">
+            <h2>Daily WAPE</h2>
+            <p class="accuracy-note">Each model's own scored days. Days with no score are left blank.</p>
+            <div id="accuracy-wape-chart"></div>
+        </section>
+
+        <section class="accuracy-chart">
+            <h2>Daily direction</h2>
+            <p class="accuracy-note">Each model's own scored days. Days with no score are left blank.</p>
+            <div id="accuracy-direction-chart"></div>
+        </section>
+
+        <section class="accuracy-table-wrap">
+            <h2>By rarity</h2>
+            <p class="accuracy-note">Shared forecasts only, so both models are judged on the same weapons.</p>
+            <table id="accuracy-rarity-table" class="accuracy-table"></table>
+        </section>
+
+        <section class="accuracy-table-wrap">
+            <h2>By day</h2>
+            <p class="accuracy-note">Each model's own scored days. A dash means that model has no score for that day.</p>
+            <table id="accuracy-daily-table" class="accuracy-table"></table>
+        </section>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='javascript/accuracy.js') }}"></script>
+{% endblock %}

@@ -29,6 +29,12 @@
 
         {% endfor %}
 
+            <a href="/accuracy?predictor={{ selectedPredictor }}" class="nav-link">
+                <h2 class="rarity-header">
+                    Accuracy
+                </h2>
+            </a>
+
             <form method="get" class="predictor-select-wrap">
                 <label class="predictor-select-label" for="predictor-select">Model</label>
                 <select id="predictor-select" name="predictor" aria-label="Prediction model" onchange="this.form.submit()">

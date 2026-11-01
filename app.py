@@ -42,6 +42,10 @@ def inject_globals():
 def index():
     return render_template("index.html", rarities=rarities)
 
+@app.route("/accuracy")
+def accuracyPage():
+    return render_template("accuracy.html")
+
 @app.route("/<rarity>")
 def rarityPage(rarity):
     if rarity not in rarities:
@@ -59,6 +63,10 @@ def rarityPage(rarity):
         excluded = []
 
     return render_template("rarity.html", rarity=rarity, weapons=weapons, excluded=excluded, scripts="rarity.js")
+
+@app.route("/api/accuracy")
+def apiAccuracy():
+    return jsonify(analysis.getModelAccuracy(horizon=1))
 
 @app.route("/api/top-movers/actual")
 def apiActualTopMovers():
